@@ -34,7 +34,7 @@ export async function getHtmlFromURL(url: string) {
 export function writeToLocalFileSync(filename: string, result: crawlResult) {
   try {
     fs.mkdirSync(BASE_DIR, { recursive: true });
-    fs.writeFileSync(filename, JSON.stringify(result));
+    fs.writeFileSync(filename, JSON.stringify(result, null, 2));
   } catch (e) {
     throw e;
   }
