@@ -4,7 +4,7 @@ import fs from 'fs';
 import { join } from "path";
 
 // type
-type crawlResult = MiniLOTO[] | LOTO6[] | LOTO7[];
+export type crawlResult = MiniLOTO[] | LOTO6[] | LOTO7[];
 
 // FUNCTIONS
 export const sleep = (ms: number) => new Promise((res) => setTimeout(res, ms));
