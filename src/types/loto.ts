@@ -10,9 +10,12 @@ export {
 }
 
 // ロト
-const MiniLotoNumber = z.number().min(1).max(31);
-const Loto6Number = z.number().min(1).max(43);
-const Loto7Number = z.number().min(1).max(37);
+export const MAX_MINILOTO_NUMBER = 31;
+export const MAX_LOTO6_NUMBER = 43;
+export const MAX_LOTO7_NUMBER = 37;
+const MiniLotoNumber = z.number().min(1).max(MAX_MINILOTO_NUMBER);
+const Loto6Number = z.number().min(1).max(MAX_LOTO6_NUMBER);
+const Loto7Number = z.number().min(1).max(MAX_LOTO7_NUMBER);
 const MINILOTOValidator = z.object({
   implemention: z.string().min(3),
   mainNumber: z.array(MiniLotoNumber).length(5),
