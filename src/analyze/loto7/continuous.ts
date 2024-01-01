@@ -4,15 +4,13 @@ import { BASE_DIR } from "../../../crawler/constants";
 import { join } from "path";
 import fs from 'fs';
 
-const filename = join(BASE_DIR, 'continuous.json');
-
-type Continuous = {
+export type Continuous = {
   implement: string[],
   sameMainNumber: number[],
   sameBonusNumber: number[],
 };
 
-function continuous(loto7: LOTO7[]) {
+export function continuous(loto7: LOTO7[]) {
   let mainContinuous = [0, 0, 0, 0, 0, 0, 0, 0];
   let bonusContinuous = [0, 0, 0];
   const result: Continuous[] = [];
@@ -39,29 +37,34 @@ function continuous(loto7: LOTO7[]) {
   return result;
 }
 
-function checkContinueNumber(loto7: Continuous[], cntnNumber: number, only: boolean) {
+export function checkContinueNumber(loto7: Continuous[], cntnNumber: number, only: boolean) {
+  let result;
   if (only) {
-    const result = loto7.filter(item => item.sameMainNumber.length === cntnNumber);
-    console.log(`${cntnNumber}つの数が次の抽選に出たとき`);
-    console.log(result);
+    result = loto7.filter(item => item.sameMainNumber.length === cntnNumber);
+    // console.log(`${cntnNumber}つの数が次の抽選に出たとき`);
+    // console.log(result);
   }
 
-  const result = loto7.filter(item => item.sameMainNumber.length >= cntnNumber);
-  console.log(`少なくとも${cntnNumber}つの数が次の抽選に出たとき`);
-  console.log(result);
+  result = loto7.filter(item => item.sameMainNumber.length >= cntnNumber);
+  // console.log(`少なくとも${cntnNumber}つの数が次の抽選に出たとき`);
+  // console.log(result);
 
   return result;
 }
 
 function main() {
-  const checkNum = 2;
   const fileContent = getSavedLoto7DataSync();
   const result = continuous(fileContent);
-  const checkResult = checkContinueNumber(result, checkNum, false);
-  fs.writeFileSync(filename, JSON.stringify(result, null, 2));
-  fs.writeFileSync(join(BASE_DIR, `checkContinue_${checkNum}.json`), JSON.stringify(checkResult, null, 2));
-}
+  const continuousDir = join(BASE_DIR, 'continuous');
 
+  // 結果を保存
+  fs.mkdirSync(continuousDir, { recursive: true });
+  fs.writeFileSync(join(continuousDir, 'result.json'), JSON.stringify(result, null, 2));
+  for (let i = 0; i <= 7; i += 1) {
+    const checkResult = checkContinueNumber(result, i, true);
+    fs.writeFileSync(join(continuousDir, `${i}.json`), JSON.stringify(checkResult, null, 2));
+  }
+}
 
 main();
 

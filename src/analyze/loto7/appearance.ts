@@ -12,8 +12,10 @@ function main() {
   const fileContent = getSavedLoto7DataSync();
   for (let i = 1; i <= MAX_LOTO7_NUMBER; i += 1) {
     const result = appearance(fileContent, i);
+    const dir = join(BASE_DIR, 'appearence');
+    fs.mkdirSync(dir, { recursive: true });
     fs.writeFileSync(
-      join(BASE_DIR, `appearence_${i}.json`),
+      join(dir, `${i}.json`),
       JSON.stringify(result, null, 2));
   }
 }
