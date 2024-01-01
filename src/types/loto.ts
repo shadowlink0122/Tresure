@@ -5,7 +5,7 @@ const NUMBERSNumber = z.number().min(0).max(9);
 const NUMBERS4Validator = NUMBERSNumber.array().length(4);
 type NUMBERS4 = z.infer<typeof NUMBERS4Validator>;
 
-export {
+export type {
   NUMBERS4
 }
 
@@ -36,7 +36,7 @@ type MiniLOTO = z.infer<typeof MINILOTOValidator>;
 type LOTO6 = z.infer<typeof LOTO6Validator>;
 type LOTO7 = z.infer<typeof LOTO7Validator>;
 
-export {
+export type {
   MiniLOTO,
   LOTO6,
   LOTO7
