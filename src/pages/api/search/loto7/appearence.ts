@@ -2,10 +2,10 @@ import { getAppearance } from '@/search/loto7/appearance';
 import { getSavedLoto7DataSync } from '@/db/file';
 import {
   SearchAppearenceRequestParamsValidator,
+  SearchAppearenceResponseParams
 } from '@/types/api/search/loto7/appearence';
 import { SearchAppearenceRequest, SearchAppearenceResponse } from '@/interface/api/search/loto7/appearence';
 import { NextApiResponse } from 'next';
-import { SearchAppearenceResponseParams } from '@/types/api/search/loto7/appearence';
 
 /**
  * 数字の出現数を出すAPI
