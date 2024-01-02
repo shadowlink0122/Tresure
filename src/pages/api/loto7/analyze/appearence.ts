@@ -87,9 +87,11 @@ export default function handler(
 ) {
   switch (req.method) {
     case 'POST':
+      // POSTリクエストを通す
       PostSearchAppearence(req, res);
       break;
     default:
+      // POSTリクエスト以外はエラー
       res.status(400).json({
         status: 'NG',
         error_message: `Not supported method: ${req.method}.`,
