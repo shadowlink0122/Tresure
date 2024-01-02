@@ -38,4 +38,4 @@ next-env.d.ts
 # builded
 public
 
-result/*
+/result
