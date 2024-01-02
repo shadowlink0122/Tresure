@@ -45,7 +45,7 @@ function PostSearchAppearence(
     // バリデーションが失敗した場合
     res.status(400).json({
       status: 'NG',
-      error_message: 'Invalid request params.',
+      error_message: `Invalid request: ${requestParams.error}`,
       result: [],
     });
     return;
@@ -63,7 +63,7 @@ function PostSearchAppearence(
   }
   // データ検索
   const { is_main_number, numbers } = req.body;
-  const searchResult: SearchAppearenceResponseParams = Object({});
+  const searchResult: SearchAppearenceResponseParams = [];
   for (const num of numbers) {
     const res = getAppearance(loto7Result!, num, is_main_number);
     searchResult.push({
