@@ -2,7 +2,7 @@ import z from 'zod';
 import { Loto7NumberValidator } from '@/types/loto7';
 import { NextApiRequest } from 'next';
 import { TresureResponseBase } from '../../tresure_response_base';
-import { LOTO7Validator } from '@/types/loto7';
+import { Loto7Validator } from '@/types/loto7';
 
 // リクエスト型
 export const SearchAppearenceRequestParamsValidator = z.object({
@@ -22,7 +22,7 @@ export interface SearchAppearenceRequest extends NextApiRequest {
 export const SearchAppearenceResponseParamsValidator = z.array(
   z.object({
     number: Loto7NumberValidator,
-    appearences: LOTO7Validator.array(),
+    appearences: Loto7Validator.array(),
   })
 );
 export type SearchAppearenceResponseParams = z.infer<typeof SearchAppearenceResponseParamsValidator>;
