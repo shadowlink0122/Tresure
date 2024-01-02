@@ -1,0 +1,25 @@
+{
+  "name": "tresure",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "crawl": "node --loader ts-node/esm --experimental-specifier-resolution=node  crawler/main.ts "
+  },
+  "devDependencies": {
+    "@types/got": "^9.6.12",
+    "@types/jsdom": "^21.1.6",
+    "@types/node": "^20.10.5",
+    "tsconfig-paths": "^4.2.0",
+    "tslint": "^6.1.3",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "fs-extra": "^11.2.0",
+    "got": "^9.6.0",
+    "iconv-lite": "^0.6.3",
+    "jsdom": "^23.0.1",
+    "node-fetch": "^3.3.2",
+    "ts-node": "^10.9.2",
+    "ts-to-zod": "^3.5.0"
+  }
+}
