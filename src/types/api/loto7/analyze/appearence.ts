@@ -6,7 +6,7 @@ import { LOTO7Validator } from '@/types/loto7';
 
 // リクエスト型
 export const SearchAppearenceRequestBooleanParamsValidator = z.boolean();
-export const SearchAppearenceRequestNumberParamsValidator = Loto7NumberValidator.array().refine(item => {
+export const SearchAppearenceRequestNumberParamsValidator = Loto7NumberValidator.array().min(1).refine(item => {
   // 要素はユニークである必要がある
   const numSet = new Set(item);
   return numSet.size === item.length;
