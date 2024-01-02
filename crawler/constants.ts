@@ -12,8 +12,10 @@ export async function getHtmlFromURL(url: string) {
   try {
     // httpリクエスト
     console.log(`GET: ${url}`);
-    const response = await got.get(url);
-    await sleep(500);
+    const response = await got.extend({
+      encoding: 'buffer'
+    }).get(url);
+    await sleep(100);
 
     if (response.statusCode !== 200) {
       throw new Error(`StatusCode: ${response.statusCode}`);

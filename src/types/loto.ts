@@ -25,6 +25,7 @@ const LOTO6Validator = z.object({
 });
 const LOTO7Validator = z.object({
   implemention: z.string().min(3),
+  date: z.string(), // TODO: Date型(yyyy/mm/dd)に変換する
   mainNumber: z.array(Loto7Number).length(7),
   bonusNumber: z.array(Loto7Number).length(2),
 });
