@@ -1,5 +1,5 @@
 import { getHtmlFromURL, writeToLocalFileSync } from './constants';
-import { LOTO7 } from '../src/types/loto';
+import { LOTO7 } from '../src/types/loto7';
 import { LOTO7_FILENAME } from './constants';
 import iconv from 'iconv-lite';
 

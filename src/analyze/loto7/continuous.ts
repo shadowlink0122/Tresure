@@ -1,21 +1,16 @@
 import { getSavedLoto7DataSync } from "../../db/file";
-import { LOTO7 } from "@/types/loto";
+import { LOTO7 } from "../../types/loto7";
 import { BASE_DIR } from "../../../crawler/constants";
 import { join } from "path";
 import fs from 'fs';
-
-export type Continuous = {
-  implement: string[],
-  sameMainNumber: number[],
-  sameBonusNumber: number[],
-};
+import { Loto7ContinuousNumber } from "../../../../types/loto7";
 
 export function continuous(loto7: LOTO7[]) {
   let mainContinuous = [0, 0, 0, 0, 0, 0, 0, 0];
   let bonusContinuous = [0, 0, 0];
-  const result: Continuous[] = [];
+  const result: Loto7ContinuousNumber[] = [];
   for (let i = 0; i < loto7.length - 1; i += 1) {
-    const res: Continuous = Object({});
+    const res: Loto7ContinuousNumber = Object({});
     const preLoto = loto7[i];
     const nextLoto = loto7[i + 1];
     // 実施回
@@ -37,7 +32,7 @@ export function continuous(loto7: LOTO7[]) {
   return result;
 }
 
-export function checkContinueNumber(loto7: Continuous[], cntnNumber: number, only: boolean) {
+export function checkContinueNumber(loto7: Loto7ContinuousNumber[], cntnNumber: number, only: boolean) {
   let result;
   if (only) {
     result = loto7.filter(item => item.sameMainNumber.length === cntnNumber);
