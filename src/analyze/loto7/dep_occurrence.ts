@@ -1,15 +1,7 @@
-import { getSavedLoto7DataSync } from "@/db/file";
+import { getSavedLoto7DataSync } from "../../db/file";
+import { Loto7DepOccurDict, Loto7Pair } from "../../types/analyze/loto7/occurrence";
 
-export type Pair = {
-  parent: number,
-  count: number,
-};
-
-export type DepOccurDict = {
-  [key: number]: Pair[]
-};
-
-const resultDict: DepOccurDict = {}
+const resultDict: Loto7DepOccurDict = {}
 
 function setNumber(key: number, value: number) {
   if (resultDict[key] === undefined) {
@@ -45,7 +37,7 @@ function createDepOccurDict() {
   // キーごとに関連する数字をソートする
   const dictKeys = Object.keys(resultDict);
   for (const key of dictKeys) {
-    resultDict[Number(key)].sort((a: Pair, b: Pair) => {
+    resultDict[Number(key)].sort((a: Loto7Pair, b: Loto7Pair) => {
       if (a.count > b.count) return -1;
       else if (a.count < b.count) return 1;
       else if (a.parent < b.parent) return 1;

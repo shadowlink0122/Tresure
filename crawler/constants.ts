@@ -1,5 +1,6 @@
 import got from "got";
-import { MiniLOTO, LOTO6, LOTO7 } from "@/types/loto";
+import { LOTO7 } from "@/types/loto7";
+import { MiniLOTO, LOTO6 } from "@/types/others";
 import fs from 'fs';
 import { join } from "path";
 
