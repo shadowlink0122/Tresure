@@ -25,7 +25,7 @@ export interface SearchAppearenceRequest extends NextApiRequest {
 export const SearchAppearenceResponseParamsValidator = z.array(
   z.object({
     number: Loto7NumberValidator,
-    result: LOTO7Validator.array(),
+    appearences: LOTO7Validator.array(),
   })
 );
 export type SearchAppearenceResponseParams = z.infer<typeof SearchAppearenceResponseParamsValidator>;
