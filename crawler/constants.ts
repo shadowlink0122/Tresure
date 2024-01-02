@@ -1,10 +1,10 @@
 import got from "got";
-import { MiniLOTO, LOTO6, LOTO7 } from "@/types/loto";
+import { MiniLOTO, LOTO6, LOTO7 } from "@/types/loto7";
 import fs from 'fs';
 import { join } from "path";
 
 // type
-type crawlResult = MiniLOTO[] | LOTO6[] | LOTO7[];
+export type crawlResult = MiniLOTO[] | LOTO6[] | LOTO7[];
 
 // FUNCTIONS
 export const sleep = (ms: number) => new Promise((res) => setTimeout(res, ms));
