@@ -13,7 +13,7 @@ export const SearchAppearenceRequestNumberParamsValidator = Loto7NumberValidator
 });
 
 export const SearchAppearenceRequestParamsValidator = z.object({
-  main_number: SearchAppearenceRequestBooleanParamsValidator,
+  is_main_number: SearchAppearenceRequestBooleanParamsValidator,
   numbers: SearchAppearenceRequestNumberParamsValidator
 });
 export type SearchAppearenceRequestParams = z.infer<typeof SearchAppearenceRequestParamsValidator>;
