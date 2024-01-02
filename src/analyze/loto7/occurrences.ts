@@ -1,6 +1,6 @@
 import { getSavedLoto7DataSync } from '../../db/file';
 import { LOTO7 } from '../../types/loto7';
-import { Loto7Occur, Loto7OccurDict } from '../../types/analyze/loto7/occurrence';
+import { Loto7Occur, Loto7OccurDict } from '../../types/loto7/occurrence';
 
 export function mainNumberOccurrences(loto7: LOTO7[]) {
   const occurDict: Loto7OccurDict = {};
@@ -41,6 +41,8 @@ export function mainNumberOccurrences(loto7: LOTO7[]) {
 }
 
 async function main() {
-  const loto7Data = getSavedLoto7DataSync();
+  const loto7Data = getSavedLoto7DataSync()!;
   mainNumberOccurrences(loto7Data);
 }
+
+main();
