@@ -1,9 +1,10 @@
 import { getHtmlFromURL, writeToLocalFileSync } from './constants';
-import { LOTO7 } from '../src/types/loto7';
+import { LOTO7, LOTO7Validator } from '../src/types/loto7';
 import { LOTO7_FILENAME } from './constants';
+import { toGregorianYear } from '../src/utils/datetime';
 import iconv from 'iconv-lite';
 
-// loto variables
+// loto variables:
 const loto7Data: LOTO7[] = [];
 
 async function crawl() {
@@ -19,18 +20,28 @@ async function crawl() {
     if (htmlBuffer === null) {
       break;
     }
-    const html = iconv.decode(<Buffer><unknown>htmlBuffer, 'SHIFT_JIS');
-    // 余計な改行をコンマに置き換えて、コンマで分ける
-    const splitedHtml = html.replace(/\r?\n/g, ',').split(',');
-    const loto7: LOTO7 = {
-      implemention: splitedHtml[1],
-      date: splitedHtml[3],
-      mainNumber: splitedHtml.slice(8, 15).map(Number),
-      bonusNumber: splitedHtml.slice(16, 18).map(Number),
-    }
-    loto7Data.push(loto7);
+    loto7Data.push(htmlBuf2Loto7(<Buffer><unknown>htmlBuffer));
+
     START_IMPLEMENT += 1;
   }
+}
+
+function htmlBuf2Loto7(buf: Buffer): LOTO7 {
+  const html = iconv.decode(buf, 'SHIFT_JIS');
+
+  // 余計な改行をコンマに置き換えて、コンマで分ける
+  const splitedHtml = html.replace(/\r?\n/g, ',').split(',');
+
+  const loto7: LOTO7 = {
+    id: splitedHtml[1].slice(1, 5),
+    date: toGregorianYear(splitedHtml[3]),
+    mainNumber: splitedHtml.slice(8, 15).map(Number),
+    bonusNumber: splitedHtml.slice(16, 18).map(Number),
+  }
+
+  LOTO7Validator.parse(loto7)
+
+  return loto7
 }
 
 export async function Loto7Crawler() {
