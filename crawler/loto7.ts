@@ -1,5 +1,5 @@
 import { getHtmlFromURL, writeToLocalFileSync } from './constants';
-import { LOTO7, LOTO7Validator } from '../src/types/loto7';
+import { LOTO7, Loto7Validator } from '../src/types/loto7';
 import { LOTO7_FILENAME } from './constants';
 import { toGregorianYear } from '../src/utils/datetime';
 import iconv from 'iconv-lite';
@@ -39,7 +39,7 @@ function htmlBuf2Loto7(buf: Buffer): LOTO7 {
     bonusNumber: splitedHtml.slice(16, 18).map(Number),
   }
 
-  LOTO7Validator.parse(loto7)
+  Loto7Validator.parse(loto7)
 
   return loto7
 }
