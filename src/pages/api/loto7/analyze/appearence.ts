@@ -65,7 +65,7 @@ function PostSearchAppearence(
     const res = getAppearance(loto7Result!, num, is_main_number);
     searchResult.push({
       number: num,
-      result: res
+      appearences: res
     });
   }
 
