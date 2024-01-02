@@ -17,7 +17,7 @@ import { SearchAppearenceResponseParams } from '@/types/api/loto7/analyze/appear
  *  - main_number: boolean
  *    - 本番号 もしくは ボーナス番号 を返す
  *  - numbers: [ 1 to 37, unique number ]
- *    - 検索したい数字
+ *    - 検索したい数字の配列
  * 
  * -- レスポンス --
  * status_code:
@@ -30,10 +30,7 @@ import { SearchAppearenceResponseParams } from '@/types/api/loto7/analyze/appear
  *  - status: 'OK' | 'NG'
  *  - error_message: string | null
  *  - result:
- *     - [{
- *          number: 検索した数字
- *          result: [検索結果]
- *       }]
+ *     - [{ number: 検索した数字, result: [検索結果] }]
  */
 
 function PostSearchAppearence(
