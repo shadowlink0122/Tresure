@@ -1,5 +1,5 @@
-import { getSavedLoto7DataSync } from "@/db/file";
-import { Loto7DepOccurDict, Loto7Pair } from "@/types/analyze/loto7/occurrence";
+import { getSavedLoto7DataSync } from "../../db/file";
+import { Loto7DepOccurDict, Loto7Pair } from "../../types/analyze/loto7/occurrence";
 
 const resultDict: Loto7DepOccurDict = {}
 
