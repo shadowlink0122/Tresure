@@ -6,18 +6,20 @@ import { LOTO7Validator } from '@/types/loto7';
 
 // リクエスト型
 export const SearchAppearenceRequestBooleanParamsValidator = z.boolean();
-export const SearchAppearenceRequestParamsValidator = Loto7NumberValidator.array().refine(item => {
+export const SearchAppearenceRequestNumberParamsValidator = Loto7NumberValidator.array().refine(item => {
   // 要素はユニークである必要がある
   const numSet = new Set(item);
   return numSet.size === item.length;
 });
 
-export type SearchAppearenceRequestBooleanParams = z.input<typeof SearchAppearenceRequestBooleanParamsValidator>;
-export type SearchAppearenceRequestParams = z.input<typeof SearchAppearenceRequestParamsValidator>;
+export const SearchAppearenceRequestParamsValidator = z.object({
+  main_number: SearchAppearenceRequestBooleanParamsValidator,
+  numbers: SearchAppearenceRequestNumberParamsValidator
+});
+export type SearchAppearenceRequestParams = z.infer<typeof SearchAppearenceRequestParamsValidator>;
 export interface SearchAppearenceRequest extends NextApiRequest {
-  main_number: SearchAppearenceRequestBooleanParams,
-  numbers: SearchAppearenceRequestParams
-};
+  body: SearchAppearenceRequestParams,
+}
 
 // レスポンス型
 export const SearchAppearenceResponseParamsValidator = z.array(
