@@ -1,6 +1,7 @@
 import { getHtmlFromURL, writeToLocalFileSync } from './constants';
-import { LOTO7 } from '@/types/loto';
+import { LOTO7 } from '../src/types/loto';
 import { LOTO7_FILENAME } from './constants';
+import iconv from 'iconv-lite';
 
 // loto variables
 const loto7Data: LOTO7[] = [];
@@ -14,14 +15,16 @@ async function crawl() {
     // URL
     const DATA_SOURCE_BASE_URL = `https://www.mizuhobank.co.jp/retail/takarakuji/loto/loto7/csv/A103${impNumber}.CSV`;
     // htmlを取得する
-    const html = await getHtmlFromURL(DATA_SOURCE_BASE_URL);
-    if (html === null) {
+    const htmlBuffer = await getHtmlFromURL(DATA_SOURCE_BASE_URL);
+    if (htmlBuffer === null) {
       break;
     }
+    const html = iconv.decode(<Buffer><unknown>htmlBuffer, 'SHIFT_JIS');
     // 余計な改行をコンマに置き換えて、コンマで分ける
     const splitedHtml = html.replace(/\r?\n/g, ',').split(',');
     const loto7: LOTO7 = {
-      implemention: `第${START_IMPLEMENT}回`,
+      implemention: splitedHtml[1],
+      date: splitedHtml[3],
       mainNumber: splitedHtml.slice(8, 15).map(Number),
       bonusNumber: splitedHtml.slice(16, 18).map(Number),
     }
