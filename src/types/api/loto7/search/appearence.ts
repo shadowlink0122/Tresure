@@ -1,8 +1,5 @@
 import z from 'zod';
-import { Loto7NumberValidator } from '@/types/loto7';
-import { NextApiRequest } from 'next';
-import { TresureResponseBase } from '../../tresure_response_base';
-import { Loto7Validator } from '@/types/loto7';
+import { Loto7NumberValidator, Loto7Validator } from '@/types/loto7';
 import { isUniqueArray } from '@/types/common';
 
 // リクエスト型
