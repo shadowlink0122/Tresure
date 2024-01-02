@@ -1,12 +1,11 @@
-import { getAppearance } from '@/analyze/loto7/appearance';
+import { getAppearance } from '@/search/loto7/appearance';
 import { getSavedLoto7DataSync } from '@/db/file';
 import {
-  SearchAppearenceRequest,
   SearchAppearenceRequestParamsValidator,
-  SearchAppearenceResponse
-} from '@/types/api/loto7/analyze/appearence';
+} from '@/types/api/loto7/search/appearence';
+import { SearchAppearenceRequest, SearchAppearenceResponse } from '@/interface/api/search/loto7/appearence';
 import { NextApiResponse } from 'next';
-import { SearchAppearenceResponseParams } from '@/types/api/loto7/analyze/appearence';
+import { SearchAppearenceResponseParams } from '@/types/api/loto7/search/appearence';
 
 /**
  * 数字の出現数を出すAPI

@@ -11,9 +11,6 @@ export const SearchAppearenceRequestParamsValidator = z.object({
   numbers: Loto7NumberValidator.array().min(1).refine(isUniqueArray)
 });
 export type SearchAppearenceRequestParams = z.infer<typeof SearchAppearenceRequestParamsValidator>;
-export interface SearchAppearenceRequest extends NextApiRequest {
-  body: SearchAppearenceRequestParams,
-}
 
 // レスポンス型
 export const SearchAppearenceResponseParamsValidator = z.array(
@@ -23,6 +20,3 @@ export const SearchAppearenceResponseParamsValidator = z.array(
   })
 );
 export type SearchAppearenceResponseParams = z.infer<typeof SearchAppearenceResponseParamsValidator>;
-export interface SearchAppearenceResponse extends TresureResponseBase {
-  result: z.infer<typeof SearchAppearenceResponseParamsValidator>
-};
