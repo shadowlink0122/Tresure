@@ -1,4 +1,4 @@
-import { getAppearance } from '@/search/loto7/appearance';
+import { getAppearance } from '@/libs/search/appearance';
 import { getSavedLoto7DataSync } from '@/db/file';
 import {
   SearchAppearenceRequestParamsValidator,

@@ -22,6 +22,7 @@ type SelectSearchAppearenceProps = {
 
 export default function SelectSearchAppearence(props: SelectSearchAppearenceProps) {
   const [isClose, setIsClose] = useState(true);
+  const loto7Number: number[] = [...Array(1 + MAX_LOTO7_NUMBER)].map((_, i) => i);
   const handleChangeIsMainNumber = (value: boolean) => {
     props.setIsMainNumber(value);
   }
@@ -88,17 +89,17 @@ export default function SelectSearchAppearence(props: SelectSearchAppearenceProp
                   }
                 }}
                 onChange={(e) => {
-                  handleChangeNumbers(Number(e.target.value));
+                  handleChangeNumbers(Number(e.target.value as string));
                 }}
               >
                 {
-                  // 1 ~ 37の配列を作成する
-                  [...Array(MAX_LOTO7_NUMBER + 1)].map((_, i) => i).map((item) => (
-                    <MenuItem key={String(item)} value={item}>
+                  // 0 ~ 36の配列を作成する
+                  loto7Number.map((item) => (
+                    <MenuItem key={item} value={item}>
                       {
-                        (item !== 0) ? (<Checkbox size="small" checked={props.numbers.indexOf(item) > -1} />) : <></>
+                        (item > 0) ? <Checkbox size="small" checked={props.numbers.indexOf(item) > -1} /> : <></>
                       }
-                      <ListItemText primary={item ? `${item}` : '閉じる'}></ListItemText>
+                      <ListItemText primary={(item > 0 ? item : '閉じる')}></ListItemText>
                     </MenuItem>
                   ))
                 }
