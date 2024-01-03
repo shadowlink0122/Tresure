@@ -14,7 +14,7 @@ export function findByNumber(data: LOTO7[], params: NumberParams) {
         // 検索
         return data.slice(from, Math.min(from + times, data.length));
     }
-    return data.slice(0, 20);
+    return data.slice(LOTO7_HISTORY_FROM_DEFAULT, LOTO7_HISTORY_TIMES_DEFAULT);
 }
 
 export function findByTerm(data: LOTO7[], params: TermParams) {
