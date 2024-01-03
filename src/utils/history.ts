@@ -1,6 +1,6 @@
 // TODO: utilityとか入ったら移動する
 import { LOTO7 } from "@/types/loto7";
-import { NumberParams, TermParams } from "@/types/api/loto7/info";
+import { NumberParams, TermParams } from "@/types/api/loto7/history";
 
 export function findByNumber(data: LOTO7[], params: NumberParams) {
     // 降順に並び替える(最新が[0])

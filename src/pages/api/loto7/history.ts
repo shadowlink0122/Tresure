@@ -3,9 +3,9 @@ import {
   InfoRequest,
   InfoRequestParamsValidator,
   InfoResponse
-} from '@/types/api/loto7/info';
+} from '@/types/api/loto7/history';
 import { NextApiResponse } from 'next';
-import { findByNumber, findByTerm } from '@/utils/info';
+import { findByNumber, findByTerm } from '@/utils/history';
 import { LOTO7 } from '@/types/loto7';
 
 /**
