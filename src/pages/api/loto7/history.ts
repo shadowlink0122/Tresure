@@ -14,10 +14,16 @@ import { LOTO7 } from '@/types/loto7';
  * -- リクエスト --
  * method: POST
  * parameters:
- *  - main_number: boolean
- *    - 本番号 もしくは ボーナス番号 を返す
- *  - numbers: [ 1 to 37, unique number ]
- *    - 検索したい数字の配列
+ *  - type_number: object | undefined indexで検索する
+ *    - from: number
+ *      - 検索基準, from前から検索する
+ *    - times: number
+ *      - 取得件数
+ *  - type_term: object | undefined 期間で検索する
+ *    - since: string(datetime)
+ *      - since以降の期間を検索, default: oldest
+ *    - until: string(datetime)
+ *      - untilまでの期間を検索, default: latest
  * 
  * -- レスポンス --
  * status_code:
@@ -30,7 +36,7 @@ import { LOTO7 } from '@/types/loto7';
  *  - status: 'OK' | 'NG'
  *  - error_message: string | null
  *  - result:
- *     - [{ number: 検索した数字, result: [検索結果] }]
+ *     - [検索結果]
  */
 
 function PostInfo(
@@ -88,9 +94,6 @@ function PostInfo(
     });
     return;
   }
-
-  // setDefaultParams(loto7Result!, req.body)
-  console.log("row", req.body)
 
   // レスポンス
   res.status(200).json({
