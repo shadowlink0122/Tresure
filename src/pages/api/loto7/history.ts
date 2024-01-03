@@ -1,8 +1,8 @@
 import { getSavedLoto7DataSync } from '@/db/file';
 import {
-  InfoRequest,
-  InfoRequestParamsValidator,
-  InfoResponse
+  GetLoto7HistoryRequest,
+  GetLoto7HistoryRequestParamsValidator,
+  GetLoto7HistoryResponse
 } from '@/types/api/loto7/history';
 import { NextApiResponse } from 'next';
 import { findByNumber, findByTerm } from '@/utils/history';
@@ -40,10 +40,10 @@ import { LOTO7 } from '@/types/loto7';
  */
 
 function PostInfo(
-  req: InfoRequest,
-  res: NextApiResponse<InfoResponse>
+  req: GetLoto7HistoryRequest,
+  res: NextApiResponse<GetLoto7HistoryResponse>
 ) {
-  const requestParams = InfoRequestParamsValidator.safeParse(req.body);
+  const requestParams = GetLoto7HistoryRequestParamsValidator.safeParse(req.body);
 
   if (!requestParams.success) {
     // バリデーションが失敗した場合
@@ -108,8 +108,8 @@ export default function handler(
   // 何のInfo?になるから、長くても変数名はちゃんとつけてほしい
   // (動詞)(名詞 | 複合名詞)Request
   // 例: GetLoto7ResultRequest, GetLoto7HistoryRequest
-  req: InfoRequest,
-  res: NextApiResponse<InfoResponse>
+  req: GetLoto7HistoryRequest,
+  res: NextApiResponse<GetLoto7HistoryResponse>
 ) {
   switch (req.method) {
     case 'POST':
