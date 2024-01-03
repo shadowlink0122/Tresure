@@ -14,7 +14,6 @@ function addVolume(result: NumberCountParams[], isMainNumber: boolean) {
     maxLeave = MAX_LOTO7_NUMBER / 2;
   }
 
-
   // 足りない分のデータ(count: 0)を補充
   for (let i = 1; i <= MAX_LOTO7_NUMBER; i += 1) {
     const found = result.filter(item => item.number === i);
@@ -32,7 +31,8 @@ function addVolume(result: NumberCountParams[], isMainNumber: boolean) {
   let maxCount = 0;
   let minCount = 0;
   let totalChange = 0;
-  while (!((result.length - totalChange) <= maxLeave)) {
+  const labeling = () => ((MAX_LOTO7_NUMBER - totalChange) > maxLeave);
+  while (labeling()) {
     // mostを検索
     // カウント順に降順ソート
     result.sort((a, b) => (a.count < b.count) ? 1 : -1);
@@ -56,7 +56,7 @@ function addVolume(result: NumberCountParams[], isMainNumber: boolean) {
 
     // ここから下はラベル付けしなくて良い値
     // 基準を超えていれば break
-    if ((result.length - totalChange) <= maxLeave) break;
+    if (!labeling()) break;
     // manyを検索
     // カウント順に降順ソート
     result.sort((a, b) => (a.count < b.count) ? 1 : -1);
