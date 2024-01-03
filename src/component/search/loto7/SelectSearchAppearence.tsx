@@ -29,10 +29,8 @@ export default function SelectSearchAppearence(props: SelectSearchAppearenceProp
     return props.numbers.length < 1 ? '未選択' : props.numbers.join(',');
   }
   const handleChangeNumbers = (value: number) => {
-    console.log(value);
     if (value === 0) {
       // 閉じる
-      console.log('close');
       setIsClose(true);
       return;
     }
@@ -88,7 +86,6 @@ export default function SelectSearchAppearence(props: SelectSearchAppearenceProp
                   if (isClose) {
                     setIsClose(false);
                   }
-                  console.log('onClick');
                 }}
                 onChange={(e) => {
                   handleChangeNumbers(Number(e.target.value));
