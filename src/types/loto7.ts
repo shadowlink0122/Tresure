@@ -1,8 +1,8 @@
 import z from 'zod';
-import { PositiveNumberValidator } from './common';
+import { PositiveIntNumberValidator } from './common';
 
 // Numbers
-const NUMBERSNumber = PositiveNumberValidator.min(0).max(9);
+const NUMBERSNumber = PositiveIntNumberValidator.min(0).max(9);
 const NUMBERS4Validator = NUMBERSNumber.array().length(4);
 type NUMBERS4 = z.infer<typeof NUMBERS4Validator>;
 
@@ -12,16 +12,17 @@ export type {
 
 // ロト7
 export const MAX_LOTO7_NUMBER = 37;
-export const Loto7NumberValidator = PositiveNumberValidator.min(1).max(MAX_LOTO7_NUMBER);
-export const LOTO7Validator = z.object({
-  id: z.string().min(4).max(4), // 0001 ~
-  date: z.date(),
+export const Loto7NumberValidator = PositiveIntNumberValidator.min(1).max(MAX_LOTO7_NUMBER);
+export const Loto7IdValidator = z.string().min(4).max(4) // 0001 ~
+
+export const Loto7Validator = z.object({
+  id: Loto7IdValidator,
+  date: z.coerce.date(),
   mainNumber: z.array(Loto7NumberValidator).length(7),
   bonusNumber: z.array(Loto7NumberValidator).length(2),
-});
+})
 
-type LOTO7 = z.infer<typeof LOTO7Validator>;
+export const LOTO7_HISTORY_FROM_DEFAULT = 0
+export const LOTO7_HISTORY_TIMES_DEFAULT = 20
 
-export type {
-  LOTO7,
-}
+export type LOTO7 = z.infer<typeof Loto7Validator>;

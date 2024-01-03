@@ -1,5 +1,5 @@
 import { getSavedLoto7DataSync } from "../../db/file";
-import { Loto7DepOccurDict, Loto7Pair } from "../../types/analyze/loto7/occurrence";
+import { Loto7DepOccurDict, Loto7Pair } from "../../types/loto7/occurrence";
 
 const resultDict: Loto7DepOccurDict = {}
 
@@ -22,7 +22,7 @@ function setNumber(key: number, value: number) {
 }
 
 function createDepOccurDict() {
-  const fileContent = getSavedLoto7DataSync().slice(530);
+  const fileContent = getSavedLoto7DataSync()!.slice(530);
   // 数字を辞書に入れていく
   console.log('set pair number.');
   for (const loto7 of fileContent) {

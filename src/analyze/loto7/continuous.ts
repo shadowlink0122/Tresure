@@ -3,7 +3,7 @@ import { LOTO7 } from "../../types/loto7";
 import { BASE_DIR } from "../../../crawler/constants";
 import { join } from "path";
 import fs from 'fs';
-import { Loto7ContinuousNumber } from "../../types/analyze/loto7/continuous";
+import { Loto7ContinuousNumber } from "../../types/loto7/continuous";
 
 export function continuous(loto7: LOTO7[]) {
   let mainContinuous = [0, 0, 0, 0, 0, 0, 0, 0];
@@ -48,7 +48,7 @@ export function checkContinueNumber(loto7: Loto7ContinuousNumber[], cntnNumber: 
 }
 
 function main() {
-  const fileContent = getSavedLoto7DataSync();
+  const fileContent = getSavedLoto7DataSync()!;
   const result = continuous(fileContent);
   const continuousDir = join(BASE_DIR, 'continuous');
 
