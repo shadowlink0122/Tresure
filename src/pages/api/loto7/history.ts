@@ -5,7 +5,7 @@ import {
   GetLoto7HistoryResponse
 } from '@/types/api/loto7/history';
 import { NextApiResponse } from 'next';
-import { findByNumber, findByTerm } from '@/utils/history';
+import { findByIds, findByNumber, findByTerm } from '@/utils/history';
 import { LOTO7 } from '@/types/loto7';
 
 /**
@@ -14,6 +14,8 @@ import { LOTO7 } from '@/types/loto7';
  * -- リクエスト --
  * method: POST
  * parameters:
+ *  - type_id: object | undefined idで検索する
+ *    - ids: string[]
  *  - type_number: object | undefined indexで検索する
  *    - from: number
  *      - 検索基準, from前から検索する
@@ -68,8 +70,11 @@ function PostInfo(
   }
 
   let resLoto7Result: LOTO7[] | null = [];
-  const { type_number, type_term } = req.body;
-  if (type_number) {
+  const { type_id, type_number, type_term } = req.body;
+  if (type_id) {
+    // データのidを指定
+    resLoto7Result = findByIds(loto7Result!, type_id)
+  } else if (type_number) {
     // データの個数を指定
     resLoto7Result = findByNumber(loto7Result!, type_number)
   } else if (type_term) {

@@ -1,8 +1,14 @@
 import z from 'zod';
 import { PositiveIntNumberValidator } from '@/types/common';
-import { Loto7Validator } from '@/types/loto7';
+import { Loto7Validator, Loto7IdValidator } from '@/types/loto7';
 import { NextApiRequest } from 'next';
 import { TresureResponseBase } from '../tresure_response_base';
+
+// id指定で撮る場合
+export const GetLoto7HistoryIdParamsValidator = z.object({
+  ids: Loto7IdValidator.array(),
+}).optional();
+export type GetLoto7HistoryIdParams = z.infer<typeof GetLoto7HistoryIdParamsValidator>
 
 // N回目~M個指定で撮る場合
 const GetLoto7HistoryNumberParamsValidator = z.object({
@@ -20,6 +26,7 @@ export type GetLoto7HistoryTermParams = z.infer<typeof GetLoto7HistoryTermParams
 
 // リクエスト型
 export const GetLoto7HistoryRequestParamsValidator = z.object({
+  type_id: GetLoto7HistoryIdParamsValidator,
   type_number: GetLoto7HistoryNumberParamsValidator,
   type_term: GetLoto7HistoryTermParamsValidator
 });

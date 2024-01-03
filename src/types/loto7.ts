@@ -13,8 +13,10 @@ export type {
 // ロト7
 export const MAX_LOTO7_NUMBER = 37;
 export const Loto7NumberValidator = PositiveIntNumberValidator.min(1).max(MAX_LOTO7_NUMBER);
+export const Loto7IdValidator = z.string().min(4).max(4) // 0001 ~
+
 export const Loto7Validator = z.object({
-  id: z.string().min(4).max(4), // 0001 ~
+  id: Loto7IdValidator,
   date: z.coerce.date(),
   mainNumber: z.array(Loto7NumberValidator).length(7),
   bonusNumber: z.array(Loto7NumberValidator).length(2),
