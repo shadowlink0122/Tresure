@@ -105,9 +105,6 @@ function PostInfo(
 }
 
 export default function handler(
-  // 何のInfo?になるから、長くても変数名はちゃんとつけてほしい
-  // (動詞)(名詞 | 複合名詞)Request
-  // 例: GetLoto7ResultRequest, GetLoto7HistoryRequest
   req: GetLoto7HistoryRequest,
   res: NextApiResponse<GetLoto7HistoryResponse>
 ) {
