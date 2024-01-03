@@ -1,4 +1,3 @@
-import { getAppearance } from '@/analyze/loto7/appearance';
 import { getSavedLoto7DataSync } from '@/db/file';
 import {
   InfoRequest,
@@ -6,7 +5,7 @@ import {
   InfoResponse
 } from '@/types/api/loto7/info';
 import { NextApiResponse } from 'next';
-import { findByNumber } from '@/utils/info';
+import { findByNumber, findByTerm } from '@/utils/info';
 import { LOTO7 } from '@/types/loto7';
 
 /**
@@ -52,21 +51,42 @@ function PostInfo(
 
   // バリデーション成功
   // ファイル読み込み
-  const loto7Result = getSavedLoto7DataSync();
+  const loto7Result = getSavedLoto7DataSync() as LOTO7[];
   if (loto7Result === null) {
     res.status(500).json({
       status: 'NG',
       error_message: 'Can\'t load LOTO7 Result file.',
       result: [],
     });
+    return;
   }
 
-  let resLoto7Result: LOTO7[]
+  let resLoto7Result: LOTO7[] | null = [];
   const { type_number, type_term } = req.body;
-  if (type_number || !type_term) {
+  if (type_number) {
+    // データの個数を指定
     resLoto7Result = findByNumber(loto7Result!, type_number)
+  } else if (type_term) {
+    // データの日時を指定
+    resLoto7Result = findByTerm(loto7Result!, type_term);
   } else {
-    // TODO: 期間で探す
+    // エラー
+    res.status(400).json({
+      status: 'NG',
+      error_message: `Invalid request param`,
+      result: [],
+    });
+    return;
+  }
+  // ２つの条件で検索できなかったとき
+  if (!resLoto7Result) {
+    // エラー
+    res.status(400).json({
+      status: 'NG',
+      error_message: `Data Not Found`,
+      result: [],
+    });
+    return;
   }
 
   // setDefaultParams(loto7Result!, req.body)
@@ -76,12 +96,15 @@ function PostInfo(
   res.status(200).json({
     status: 'OK',
     error_message: null,
-    result: resLoto7Result!
+    result: resLoto7Result
   });
   return;
 }
 
 export default function handler(
+  // 何のInfo?になるから、長くても変数名はちゃんとつけてほしい
+  // (動詞)(名詞 | 複合名詞)Request
+  // 例: GetLoto7ResultRequest, GetLoto7HistoryRequest
   req: InfoRequest,
   res: NextApiResponse<InfoResponse>
 ) {
