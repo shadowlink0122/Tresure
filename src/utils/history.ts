@@ -1,8 +1,8 @@
 // TODO: utilityとか入ったら移動する
 import { LOTO7, LOTO7_HISTORY_FROM_DEFAULT, LOTO7_HISTORY_TIMES_DEFAULT } from "@/types/loto7";
-import { NumberParams, TermParams } from "@/types/api/loto7/history";
+import { GetLoto7HistoryNumberParams, GetLoto7HistoryTermParams } from "@/types/api/loto7/history";
 
-export function findByNumber(data: LOTO7[], params: NumberParams) {
+export function findByNumber(data: LOTO7[], params: GetLoto7HistoryNumberParams) {
     // 降順に並び替える(最新が[0])
     data.sort((a, b) => Number(a.id) > Number(b.id) ? -1 : 1)
 
@@ -17,7 +17,7 @@ export function findByNumber(data: LOTO7[], params: NumberParams) {
     return data.slice(LOTO7_HISTORY_FROM_DEFAULT, LOTO7_HISTORY_TIMES_DEFAULT);
 }
 
-export function findByTerm(data: LOTO7[], params: TermParams) {
+export function findByTerm(data: LOTO7[], params: GetLoto7HistoryTermParams) {
     // 降順に並び替える
     data.sort((a, b) => Number(a.id) > Number(b.id) ? -1 : 1)
 
