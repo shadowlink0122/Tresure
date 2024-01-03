@@ -20,4 +20,7 @@ export const Loto7Validator = z.object({
   bonusNumber: z.array(Loto7NumberValidator).length(2),
 })
 
+export const LOTO7_HISTORY_FROM_DEFAULT = 0
+export const LOTO7_HISTORY_TIMES_DEFAULT = 20
+
 export type LOTO7 = z.infer<typeof Loto7Validator>;
