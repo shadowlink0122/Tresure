@@ -8,15 +8,22 @@ import { useEffect, useState } from "react";
 
 export default function AllNumberAppearence() {
   const [isMainNumber, setIsMainNumber] = useState<boolean>(true);
-  const [terms, setTerms] = useState<number>(5);
+  const [terms, setTerms] = useState<string>('5');
   const [numbers, setNumbers] = useState<SearchAllNumberAppearenceResponseParams>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const changeTerms = (terms: string) => {
+    const num = Number(terms);
+    if (num) {
+      return num;
+    }
+    return 5;
+  }
   const handleSearch = async () => {
     try {
       // リクエストパラメータ
       const requestParams: SearchAllNumberAppearenceRequestParams = {
         is_main_number: isMainNumber,
-        terms: terms,
+        terms: changeTerms(terms),
       }
       // バリデーションエラー
       const validate = SearchAllNumberAppearenceRequestParamsValidator.safeParse(requestParams);
@@ -40,7 +47,8 @@ export default function AllNumberAppearence() {
     <List>
       <ListItem>
         <TextField
-          onChange={(e) => setTerms(Number(e.target.value))}
+          value={terms}
+          onChange={(e) => setTerms(e.target.value)}
         />
       </ListItem>
       <ListItem>
@@ -54,7 +62,7 @@ export default function AllNumberAppearence() {
         </Stack>
       </ListItem>
       <AllNumberTable
-        terms={terms}
+        terms={changeTerms(terms)}
         numbers={numbers}
       />
     </List>
