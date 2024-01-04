@@ -11,7 +11,7 @@ import { getAllNumberAppearence } from '@/libs/search/loto7/all_number_appearenc
  * method: POST
  * parameters:
  *  - terms: number
- *    - 直近N回分のデータ: 最小5
+ *    - 直近N回分のデータ: N > 0
  *  - is_main_number: boolean
  *    - 本番号かボーナス番号
  * 
