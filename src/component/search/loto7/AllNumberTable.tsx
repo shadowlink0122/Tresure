@@ -19,9 +19,9 @@ export default function AllNumberTable(props: AllNumberTableProps) {
   const getColor = (volume: AllNumberAppearenceStatus | undefined) => {
     switch (volume) {
       case 'most':
-        return "hotpink";
-      case 'many':
         return "orangered";
+      case 'many':
+        return "hotpink";
       case 'few':
         return 'lightskyblue';
       case 'less':
