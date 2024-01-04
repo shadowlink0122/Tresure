@@ -6,7 +6,7 @@ import z from 'zod';
 export const SearchAllNumberAppearenceRequestParamsValidator = z.object({
   // 要素は増える予定
   is_main_number: z.boolean(),
-  terms: PositiveIntNumberValidator.min(5),
+  terms: PositiveIntNumberValidator.min(1),
 });
 
 export type SearchAllNumberAppearenceRequestParams =

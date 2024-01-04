@@ -10,8 +10,8 @@ function addVolume(result: NumberCountParams[], isMainNumber: boolean) {
     maxLeave = MAX_LOTO7_NUMBER / 3
   } else {
     // 補充が存在する場合、データは十分にないので
-    // 出現した数の最大 1/2 をラベル付けしない
-    maxLeave = MAX_LOTO7_NUMBER / 2;
+    // 出現した数の最大 1/2 +5(マージン) をラベル付けしない
+    maxLeave = 5 + MAX_LOTO7_NUMBER / 2;
   }
 
   // 足りない分のデータ(count: 0)を補充
