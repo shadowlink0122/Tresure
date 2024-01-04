@@ -52,7 +52,7 @@ export default function AllNumberTable(props: AllNumberTableProps) {
                 {chunkedNumberArray.map((item, i) => (
                   <>
                     {(index === 0 && i === 0) ? <th rowSpan={4}>番号</th> : <></>}
-                    {(item.number !== -1) ? <th><b>{item.number}</b></th> : <td style={{ backgroundColor: 'gray' }}></td>}
+                    {(item.number !== -1) ? <th style={{ backgroundColor: getColor(item.volume) }}><b>{item.number}</b></th> : <td style={{ backgroundColor: 'gray' }}></td>}
                   </>
                 ))
                 }
