@@ -1,7 +1,4 @@
-import { AllNumberAppearenceStatus, NumberCountParams, SearchAllNumberAppearenceResponseParams } from "@/types/api/search/loto7/all_number_appearence";
-import { MAX_LOTO7_NUMBER } from "@/types/loto7"
-import { borderTopColor } from "@mui/system";
-
+import { AllNumberAppearenceStatus, NumberCountParams } from "@/types/api/search/loto7/all_number_appearence";
 type AllNumberTableProps = {
   terms: number,
   numbers: NumberCountParams[]
@@ -19,13 +16,13 @@ export default function AllNumberTable(props: AllNumberTableProps) {
   const getColor = (volume: AllNumberAppearenceStatus | undefined) => {
     switch (volume) {
       case 'most':
-        return "orangered";
-      case 'many':
         return "hotpink";
+      case 'many':
+        return "lightpink";
       case 'few':
         return 'lightskyblue';
       case 'less':
-        return 'royalblue';
+        return 'deepskyblue';
       default:
         break;
     }
