@@ -60,6 +60,7 @@ import { NextApiRequest, NextApiResponse } from "next";
  *  - result:
  *    - [
  *        {
+ *          pick_method: 'dispersion' | 'random', // 仕様した抽選方式
  *          [
  *            {
  *              numbers: number ( 1 ~ 37 ), // 選ばれた数
