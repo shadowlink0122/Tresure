@@ -49,7 +49,7 @@ function PostSearchAppearence(
 
   // バリデーション成功
   // ファイル読み込み
-  const loto7Result = getSavedLoto7DataSync();
+  const loto7Result = getSavedLoto7DataSync()?.reverse();
   if (loto7Result === null) {
     res.status(500).json({
       status: 'NG',

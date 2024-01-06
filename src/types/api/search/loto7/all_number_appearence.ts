@@ -15,7 +15,7 @@ export type SearchAllNumberAppearenceRequestParams =
 // レスポンス
 export const AllNumberAppearenceStatusValidator = z.enum([
   "most", "many", "few", "less"
-]);
+]).optional();
 export type AllNumberAppearenceStatus = z.infer<typeof AllNumberAppearenceStatusValidator>;
 export const NumberCountParamsValidator = z.object({
   number: PositiveIntNumberValidator.max(MAX_LOTO7_NUMBER),

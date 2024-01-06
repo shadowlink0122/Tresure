@@ -1,15 +1,6 @@
 import z from 'zod';
 import { PositiveIntNumberValidator } from './common';
 
-// Numbers
-const NUMBERSNumber = PositiveIntNumberValidator.min(0).max(9);
-const NUMBERS4Validator = NUMBERSNumber.array().length(4);
-type NUMBERS4 = z.infer<typeof NUMBERS4Validator>;
-
-export type {
-  NUMBERS4
-}
-
 // ロト7
 export const MAX_LOTO7_NUMBER = 37;
 export const Loto7ImplementionValidator = z.string().min(3);

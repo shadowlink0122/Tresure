@@ -41,7 +41,6 @@ function addVolume(result: NumberCountParams[], isMainNumber: boolean) {
     if (result[mostIndex].volume !== undefined) break;
     maxCount = result[mostIndex].count;
     while (mostIndex < result.length && result[mostIndex].count >= maxCount) {
-      console.log(`${totalChange}[most] num:${result[mostIndex].number}, count:${result[mostIndex].count} (maxCount: ${maxCount}, mostIndex: ${mostIndex})`);
       result[mostIndex].volume = 'most';
       // 未push
       if (mostCountArray.indexOf(result[mostIndex].count) === -1) {
@@ -57,7 +56,6 @@ function addVolume(result: NumberCountParams[], isMainNumber: boolean) {
     if (result[lessIndex].volume !== undefined) break;
     minCount = result[lessIndex].count;
     while (lessIndex < result.length && minCount >= result[lessIndex].count) {
-      console.log(`${totalChange}[less] num:${result[lessIndex].number}, count:${result[lessIndex].count} (minCount: ${minCount}, lessIndex: ${lessIndex})`);
       result[lessIndex].volume = 'less';
       // 未push
       if (lessCountArray.indexOf(result[lessIndex].count) === -1) {
@@ -67,8 +65,6 @@ function addVolume(result: NumberCountParams[], isMainNumber: boolean) {
       totalChange += 1
     }
   }
-  console.log(mostCountArray);
-  console.log(lessCountArray);
   // most/less に分類されたものが2種類以上あるとき、
   // その半分を many/few に分類し直す
   if (mostCountArray.length > 0) {
@@ -76,7 +72,6 @@ function addVolume(result: NumberCountParams[], isMainNumber: boolean) {
       result.map(item => {
         if (item.count === mostCountArray[i]) {
           item.volume = 'many';
-          console.log(`change[${mostCountArray[i]}]: number:${item.number}, count:${item.count} -> many`);
         }
       })
     }
@@ -86,7 +81,6 @@ function addVolume(result: NumberCountParams[], isMainNumber: boolean) {
       result.map(item => {
         if (item.count === lessCountArray[i]) {
           item.volume = 'few';
-          console.log(`change[${lessCountArray[i]}]: number:${item.number}, count:${item.count} -> few`);
         }
       })
     }
