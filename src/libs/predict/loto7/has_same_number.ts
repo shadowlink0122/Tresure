@@ -24,7 +24,6 @@ export function checkSameValue(a: number[], b: LOTO7) {
   return result;
 }
 
-
 export function hasSameNumber(target: number[], loto7: LOTO7[]) {
   const result: HasSameValueDict = {}
   for (const loto of loto7) {

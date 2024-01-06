@@ -53,23 +53,12 @@ export function predict(necessaryNumbers: NumberDispersion[], randomChoosedNumbe
       }
       i -= 1; // 行きすぎた分を戻す
       result.push(necNumbers[i]); // 選ぶ
-      // console.log(`picked: `, necNumbers[i]);
-      // console.log(`inc:weight = ${incWeight}:${weight}`);
       // 選んだ後: 重みの合計から選ばれた分をへらす, 必要数から抽選した数を消す
       totalNecNumbersWeight -= necNumbers[i].weight;
       necNumbers = deleteByIndex(necNumbers, i);
     }
     // 番号順にソートする
     result.sort((a, b) => a.number > b.number ? 1 : -1);
-    // 重みを元に戻す
-    result.map(item => {
-      necessaryNumbers.map(i => {
-        if (i.number === item.number) item.weight = i.weight
-      });
-      randomChoosedNumbers.map(i => {
-        if (i.number === item.number) item.weight = i.weight
-      });
-    });
     return result;
   }
 
@@ -97,14 +86,5 @@ export function predict(necessaryNumbers: NumberDispersion[], randomChoosedNumbe
   }
   // 番号順にソートする
   result.sort((a, b) => a.number > b.number ? 1 : -1);
-  // 重みを元に戻す
-  result.map(item => {
-    necessaryNumbers.map(i => {
-      if (i.number === item.number) item.weight = i.weight
-    });
-    randomChoosedNumbers.map(i => {
-      if (i.number === item.number) item.weight = i.weight
-    });
-  });
   return result;
 }
