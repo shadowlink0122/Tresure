@@ -1,3 +1,5 @@
+import { PredictPostRequst } from "@/interface/api/predict/loto7";
+import { PredictPostResponse } from "@/interface/api/predict/loto7";
 import { NextApiRequest, NextApiResponse } from "next";
 
 /**
@@ -14,12 +16,12 @@ import { NextApiRequest, NextApiResponse } from "next";
  * params:
  *  - quantity: number
  *    - 実行する回数
- *  - necessary: number[] | undefined
+ *  - necessary: number[]
  *    - 必ず入れる数
  *      - 7個未満: 必ず抽選に含まれる
  *      - 7個: 抽選は一回のみ ( quantity > 1: error )
  *      - 8個以上: この数だけで抽選を行う
- *  - exclude: number[] | undefined
+ *  - exclude: number[]
  *    - 除外する数
  *      - 最大: 20
  *      - necessary の数字とは1個も被らない
@@ -61,7 +63,7 @@ import { NextApiRequest, NextApiResponse } from "next";
  *    - [
  *        {
  *          pick_method: 'dispersion' | 'random', // 仕様した抽選方式
- *          [
+ *          result: [
  *            {
  *              numbers: number ( 1 ~ 37 ), // 選ばれた数
  *              amount: 期間内で選ばれた数
@@ -72,15 +74,12 @@ import { NextApiRequest, NextApiResponse } from "next";
  *              },
  *            },
  *            ..., // 合計7桁分
- *            similar_picked: {
+ *            similar_pick: {
  *              count_same_number: number, // 何個の数字が被っているか
  *              has_same_numbers: [
  *                id: number, // 第N回
  *                date: Date, // 年月日
- *                numbers: [
- *                  {
- *                  }
- *                ]
+ *                numbers: [ 抽選番号, ... ]
  *              ]
  *            }
  *          ]
@@ -89,14 +88,20 @@ import { NextApiRequest, NextApiResponse } from "next";
  *      ]
  */
 
+function PostPredictNumber(
+  req: PredictPostRequst,
+  res: NextApiResponse<PredictPostResponse>
+) { }
+
+
 export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
+  req: PredictPostRequst,
+  res: NextApiResponse<PredictPostResponse>
 ) {
   switch (req.method) {
     case 'POST':
       // POSTリクエストを通す
-      // PostPredictNumber(req, res);
+      PostPredictNumber(req, res);
       break;
     default:
       // POSTリクエスト以外はエラー
