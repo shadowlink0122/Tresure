@@ -1,4 +1,4 @@
-import { PositiveIntNumberValidator } from '@/types/common';
+import { NonNegativeIntNumberValidator, PositiveIntNumberValidator } from '@/types/common';
 import { Loto7DateValidator, Loto7ImplementionValidator, Loto7MainNumbersValidator, Loto7NumberValidator, MAX_LOTO7_NUMBER } from '@/types/loto7';
 import z from 'zod';
 import { AllNumberAppearenceStatusValidator } from '../../search/loto7/all_number_appearence';
@@ -6,8 +6,8 @@ import { AllNumberAppearenceStatusValidator } from '../../search/loto7/all_numbe
 // リクエスト
 const MaxExcludeNumberLength = 20;
 const PredictQuantityValidator = PositiveIntNumberValidator;
-const PredictNecessaryNumberValidator = Loto7NumberValidator.array();
-const PredictExcludeNumberValidator = Loto7NumberValidator.array().max(MaxExcludeNumberLength);
+const PredictNecessaryNumberValidator = Loto7NumberValidator.array().min(0);
+const PredictExcludeNumberValidator = Loto7NumberValidator.array().min(0).max(MaxExcludeNumberLength);
 export const PredictDispersionParamsValidator = z.object({
   terms: PositiveIntNumberValidator.optional(),
   reverse: z.boolean().optional(),
@@ -25,6 +25,7 @@ export const PredictPostRequestParamsValidator = z.object({
   if (necessary.length === 7 && quantity !== 1) return false;
   // 必要数と除外数に被りがあるとき, エラー
   if (necessary.filter(item => exclude.indexOf(item) !== -1).length > 0) return false;
+  return true;
 });
 export type PredictPostRequestParams = z.infer<typeof PredictPostRequestParamsValidator>;
 
@@ -38,7 +39,7 @@ export const PredictLastPickedParamsValidator = z.object({
 });
 export type PredictLastPickedParams = z.infer<typeof PredictLastPickedParamsValidator>;
 const PredictNumberValidator = PositiveIntNumberValidator.max(MAX_LOTO7_NUMBER);
-const PredictNumberAmountValidator = PositiveIntNumberValidator.min(0);
+const PredictNumberAmountValidator = NonNegativeIntNumberValidator;
 const PredictPickedNumberParamsValidator = z.object({
   number: PredictNumberValidator,
   amount: PredictNumberAmountValidator,
@@ -54,8 +55,8 @@ export const PredictHasSameNumbersParamsValidator = z.object({
 });
 export type PredictHasSameNumbersParams = z.infer<typeof PredictHasSameNumbersParamsValidator>;
 export const PredictSimilarPickParamsValidator = z.object({
-  count_same_number: PositiveIntNumberValidator,
-  has_same_number: PredictHasSameNumbersParamsValidator
+  count_same_number: NonNegativeIntNumberValidator,
+  has_same_number: PredictHasSameNumbersParamsValidator.array()
 });
 export type PredictSimilarPickParams = z.infer<typeof PredictSimilarPickParamsValidator>;
 export const PredictResultParamsValidator = z.object({
