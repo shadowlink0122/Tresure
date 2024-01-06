@@ -133,13 +133,6 @@ function PostPredictNumber(
   // 必要数が7未満の時、必要数/除外数以外の数字が選ばれるようにする
   // それ以外の時は必要数から選ばれるので、この分岐に入らない
   if (necessary.length < 7) {
-    // 除外する数字のindexを取得する
-    const getIndexFromNumber = (target: number) => {
-      for (let i = 0; i < randomChoosedNumbers.length; i += 1) {
-        if (randomChoosedNumbers[i].number === target) return i;
-      }
-      return -1;
-    }
     // ランダムに選ばれない数字
     const excludeRandomChoose: number[] = [...necessary, ...exclude];
     console.log(excludeRandomChoose);
@@ -212,7 +205,7 @@ function PostPredictNumber(
       // 各数字のデータを返す
       res.result.push({
         number: predictNum.number,
-        amount: predictNum.weight - 1, // 元から1がセットしてあるので、その分を引く
+        amount: frequency.filter(item => item.number === predictNum.number)[0].count,
         frequency: frequency.filter(item => item.number === predictNum.number)[0].volume,
         last_picked: {
           id: lastPicked.implemention,
