@@ -1,4 +1,11 @@
 import z from 'zod';
 
 // 共通
-export const PositiveNumberValidator = z.number().positive();
+export const PositiveIntNumberValidator = z.number().int().positive();
+
+// 配列がユニークかを確認する
+export function isUniqueArray<T>(item: T[]): boolean {
+  // 要素はユニークである必要がある
+  const numSet = new Set(item);
+  return numSet.size === item.length;
+}

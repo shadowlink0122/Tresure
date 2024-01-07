@@ -1,5 +1,5 @@
 import z from 'zod';
-import { Loto7NumberValidator } from '../../loto7';
+import { Loto7NumberValidator } from '../loto7';
 
 // 引き継がれる番号を探す
 const Loto7ContinuousNumberValidator = z.object({
