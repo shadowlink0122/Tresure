@@ -17,7 +17,6 @@ import {
   Typography
 } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useState } from "react";
 import SimpleButton from "@/component/SimpleButton";
 import { SearchAppearenceRequestParams } from "@/types/api/search/loto7/appearence";
 

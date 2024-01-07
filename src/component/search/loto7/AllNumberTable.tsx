@@ -1,4 +1,21 @@
 import { AllNumberAppearenceStatus, NumberCountParams } from "@/types/api/search/loto7/all_number_appearence";
+
+export function getColorByFrequence(volume: AllNumberAppearenceStatus | undefined) {
+  switch (volume) {
+    case 'most':
+      return "hotpink";
+    case 'many':
+      return "lightpink";
+    case 'few':
+      return 'lightskyblue';
+    case 'less':
+      return 'deepskyblue';
+    default:
+      break;
+  }
+  return '';
+}
+
 type AllNumberTableProps = {
   terms: number,
   numbers: NumberCountParams[]
@@ -13,21 +30,6 @@ export default function AllNumberTable(props: AllNumberTableProps) {
     )
   }
   const chunkNum = 10;
-  const getColor = (volume: AllNumberAppearenceStatus | undefined) => {
-    switch (volume) {
-      case 'most':
-        return "hotpink";
-      case 'many':
-        return "lightpink";
-      case 'few':
-        return 'lightskyblue';
-      case 'less':
-        return 'deepskyblue';
-      default:
-        break;
-    }
-    return '';
-  }
   return (
     <table className="numbers" cellSpacing="1" style={{
       border: "solid 1px #222",
@@ -49,7 +51,7 @@ export default function AllNumberTable(props: AllNumberTableProps) {
                 {chunkedNumberArray.map((item, i) => (
                   <>
                     {(index === 0 && i === 0) ? <th rowSpan={4}>番号</th> : <></>}
-                    {(item.number !== -1) ? <th style={{ backgroundColor: getColor(item.volume) }}><b>{item.number}</b></th> : <td style={{ backgroundColor: 'gray' }}></td>}
+                    {(item.number !== -1) ? <th style={{ backgroundColor: getColorByFrequence(item.volume) }}><b>{item.number}</b></th> : <td style={{ backgroundColor: 'gray' }}></td>}
                   </>
                 ))
                 }
@@ -73,7 +75,7 @@ export default function AllNumberTable(props: AllNumberTableProps) {
                   <>
                     {(index === 0 && i === 0) ? <th rowSpan={4}>{`直近${props.terms}回の`} <br /> {'出現数'}</th> : <></>}
                     {(item.number !== -1) ?
-                      <td align="right" style={{ backgroundColor: getColor(item.volume) }}>{item.count}回</td> :
+                      <td align="right" style={{ backgroundColor: getColorByFrequence(item.volume) }}>{item.count}回</td> :
                       <td style={{ backgroundColor: 'gray' }}></td>}
                   </>
                 ))

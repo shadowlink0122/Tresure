@@ -135,7 +135,6 @@ function PostPredictNumber(
   if (necessary.length < 7) {
     // ランダムに選ばれない数字
     const excludeRandomChoose: number[] = [...necessary, ...exclude];
-    console.log(excludeRandomChoose);
     excludeRandomChoose.map(item => {
       randomChoosedNumbers = randomChoosedNumbers.filter(i => i.number !== item);
     });
