@@ -1,4 +1,4 @@
-import { getAppearance } from '@/search/loto7/appearance';
+import { getAppearance } from '@/libs/search/appearance';
 import { getSavedLoto7DataSync } from '@/db/file';
 import {
   SearchAppearenceRequestParamsValidator,
@@ -13,7 +13,7 @@ import { NextApiResponse } from 'next';
  * -- リクエスト --
  * method: POST
  * parameters:
- *  - main_number: boolean
+ *  - is_main_number: boolean
  *    - 本番号 もしくは ボーナス番号 を返す
  *  - numbers: [ 1 to 37, unique number ]
  *    - 検索したい数字の配列
