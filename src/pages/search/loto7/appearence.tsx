@@ -28,36 +28,18 @@ export default function Appearence() {
             setIsMainNumber={setIsMainNumber}
             numbers={numbers}
             setNumbers={setNumbers}
+            canSearch={canSearch}
+            handleSearchAppearence={handleSearchAppearence}
           >
           </SelectSearchAppearence>
-        </Stack>
-      </ListItem>
-      <ListItem>
-        <Stack direction='row' spacing={1}>
-          <SimpleButton
-            title="検索"
-            color="info"
-            disabled={!canSearch}
-            onClick={async () => {
-              const params: SearchAppearenceRequestParams = {
-                is_main_number: isMainNumber,
-                numbers: numbers
-              };
-              await handleSearchAppearence(params);
-            }}
-          />
         </Stack>
       </ListItem>
       {searchResult?.map(item => (
         <>
           <ListItem>
             <Stack direction='row' spacing={1}>
-              {`結果[${item.number}]: 合計${item.appearences.length}`}
-            </Stack>
-          </ListItem>
-          <ListItem>
-            <Stack direction='row' spacing={1}>
               <HistoryTable
+                title={`検索結果: ${item.number} (合計${item.appearences.length})`}
                 loto7={item.appearences}
               />
             </Stack >
