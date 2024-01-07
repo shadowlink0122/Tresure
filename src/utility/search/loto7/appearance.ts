@@ -1,5 +1,5 @@
 // import { getSavedLoto7DataSync } from "../../db/file";
-import { LOTO7 } from "../../types/loto7";
+import { LOTO7 } from "../../../types/loto7";
 // import { MAX_LOTO7_NUMBER } from "../../types/loto7";
 // import { BASE_DIR } from "../../../crawler/constants";
 // import { join } from "path";

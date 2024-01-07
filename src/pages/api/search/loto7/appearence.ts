@@ -1,4 +1,4 @@
-import { getAppearance } from '@/search/loto7/appearance';
+import { getAppearance } from '@/utility/search/loto7/appearance';
 import { getSavedLoto7DataSync } from '@/db/file';
 import {
   SearchAppearenceRequestParamsValidator,
@@ -97,4 +97,3 @@ export default function handler(
   }
   return;
 }
-
