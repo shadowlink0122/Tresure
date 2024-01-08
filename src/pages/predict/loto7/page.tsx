@@ -52,9 +52,7 @@ export default function Predict() {
         console.log('error: ', response.error_message);
         return;
       }
-      console.log('response.result: ', response.result);
       setPredictResult(response.result);
-      console.log('predictResult', predictResult);
     } catch (e) {
       throw e;
     }
