@@ -1,5 +1,5 @@
-import PredictResultTable from "@/component/search/loto7/PredictResultTable";
-import SelectPredict from "@/component/search/loto7/SelectPredict";
+import PredictTable from "@/component/predirct/loto7/index/PredictResultTable";
+import SelectPredict from "@/component/predirct/loto7/index/SelectPredict";
 import { execPredictPostRequest } from "@/libs/api_client/predict/loto7";
 import {
   PredictDispersionParams,
@@ -82,7 +82,7 @@ export default function Predict() {
       {predictResult.map((item, index) => (
         <>
           <ListItem>
-            <PredictResultTable
+            <PredictTable
               titile={`抽選結果${index + 1}`}
               predict={item}
             />
