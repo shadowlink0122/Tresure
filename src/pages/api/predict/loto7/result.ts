@@ -82,25 +82,23 @@ function GetPredictResult(
   const predictResult = getPredictFileSync(requestId);
 
   // 当選確認を行う
-  // 当選したものを、昇順ソートする
-  const winningDataArray: PredictResultGetResponseParams = []
-  // 当選していないもの
-  const nonWinningDataArray: PredictResultGetResponseParams = []
+  const winningDataArray: PredictResultGetResponseParams = [];
   if (predictResult !== null) {
     predictResult.map(item => {
       for (const predict of item.predict) {
         const res = getWinningData(loto7Data[requestId - 1], predict);
         // 当選しているものとしていないものを分ける
-        (res.rank !== undefined) ? winningDataArray.push(res) : nonWinningDataArray.push(res);
+        if (res.rank !== undefined) winningDataArray.push(res);
       }
     });
   }
 
   // 当選順にソートする
   winningDataArray.sort((a, b) => a.rank! - b.rank!);
+
+  // 当選したものだけ結果を返す
   const result: PredictResultGetResponseParams = [
     ...winningDataArray,
-    ...nonWinningDataArray
   ];
 
   // あたり順にソートする

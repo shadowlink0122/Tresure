@@ -234,12 +234,14 @@ function PostPredictNumber(
     // 1回の抽選分のデータを返す
     result.push(res);
   }
+
+  // レスポンスのバリデーション
   const validateResponse = PredictPostResponseParamsValidator.safeParse(result);
   if (!validateResponse.success) {
     res.status(400).json({
       status: 'NG',
       error_message: validateResponse.error.message,
-      result: result
+      result: []
     });
     return;
   }
@@ -250,10 +252,13 @@ function PostPredictNumber(
     res.status(400).json({
       status: 'NG',
       error_message: `Internal Server Error: 抽選結果を保存できませんでした`,
-      result: result
+      result: []
     });
     return;
   }
+  // 100件より多ければデータを返さない
+  if (quantity > 100) result.splice(0, result.length);
+
   // 結果を返す
   res.status(200).json({
     status: 'OK',
