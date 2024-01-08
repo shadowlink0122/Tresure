@@ -62,12 +62,12 @@ export const PredictSimilarPickParamsValidator = z.object({
   has_same_number: PredictHasSameNumbersParamsValidator.array()
 });
 export type PredictSimilarPickParams = z.infer<typeof PredictSimilarPickParamsValidator>;
-export const PredictResultParamsValidator = z.object({
+export const PredictElementParamsValidator = z.object({
   pick_method: PredictPickMethodValidator,
   result: PredictPickedNumberParamsValidator,
   similar_pick: PredictSimilarPickParamsValidator
 });
-export type PredictResultParams = z.infer<typeof PredictResultParamsValidator>;
+export type PredictElementParams = z.infer<typeof PredictElementParamsValidator>;
 
-export const PredictPostResponseParamsValidator = PredictResultParamsValidator.array();
+export const PredictPostResponseParamsValidator = PredictElementParamsValidator.array();
 export type PredictPostResponseParams = z.infer<typeof PredictPostResponseParamsValidator>;

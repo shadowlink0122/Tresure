@@ -1,4 +1,4 @@
-import PredictTable from "@/component/predirct/loto7/index/PredictResultTable";
+import PredictTable from "@/component/predirct/loto7/index/PredictTable";
 import SelectPredict from "@/component/predirct/loto7/index/SelectPredict";
 import { execPredictPostRequest } from "@/libs/api_client/predict/loto7";
 import {

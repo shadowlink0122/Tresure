@@ -1,7 +1,13 @@
 import { getSavedLoto7DataSync } from "@/db/file";
 import { PredictPostRequst } from "@/interface/api/predict/loto7";
 import { PredictPostResponse } from "@/interface/api/predict/loto7";
-import { PredictHasSameNumbersParams, PredictPickMethod, PredictPostRequestParams, PredictPostRequestParamsValidator, PredictPostResponseParamsValidator, PredictResultParams, PredictSimilarPickParams } from "@/types/api/predict/loto7";
+import {
+  PredictHasSameNumbersParams,
+  PredictPickMethod,
+  PredictPostRequestParamsValidator,
+  PredictPostResponseParamsValidator,
+  PredictElementParams
+} from "@/types/api/predict/loto7";
 import { MAX_LOTO7_NUMBER } from "@/types/loto7";
 import { NextApiResponse } from "next";
 import { NumberDispersion, predict } from "@/libs/predict/loto7";
@@ -188,9 +194,9 @@ function PostPredictNumber(
     });
   }
   //  --- ${quantity} 回抽選する ---
-  const result: PredictResultParams[] = [];
+  let result: PredictElementParams[] = [];
   for (let i = 0; i < quantity; i += 1) {
-    const res: PredictResultParams = {
+    const res: PredictElementParams = {
       result: [],
       pick_method: pickMethod,
       similar_pick: Object({}) // 抽選後に設定
@@ -257,7 +263,7 @@ function PostPredictNumber(
     return;
   }
   // 100件より多ければデータを返さない
-  if (quantity > 100) result.splice(0, result.length);
+  if (quantity > 100) result = [];
 
   // 結果を返す
   res.status(200).json({

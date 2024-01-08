@@ -1,4 +1,4 @@
-import { PredictPostResponseParams, PredictResultParams } from "@/types/api/predict/loto7";
+import { PredictElementParams } from "@/types/api/predict/loto7";
 import {
   Accordion,
   AccordionSummary,
@@ -15,12 +15,12 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { getColorByFrequence } from "../../../search/loto7/AllNumberTable";
 import { useState } from "react";
 
-type PredictResultTableProps = {
+type PredictTableProps = {
   titile: string,
-  predict: PredictResultParams,
+  predict: PredictElementParams,
 };
 
-export default function PredictTable(props: PredictResultTableProps) {
+export default function PredictTable(props: PredictTableProps) {
   const [isExpand, setIsExpand] = useState(false);
 
   return (
