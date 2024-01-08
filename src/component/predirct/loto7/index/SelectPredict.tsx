@@ -22,7 +22,7 @@ import {
 } from "@/types/api/predict/loto7";
 import { useState } from "react";
 import SimpleButton from "@/component/SimpleButton";
-import SelectLoto7Numbers from "./SelectLoto7Numbers";
+import SelectLoto7Numbers from "../../../search/loto7/SelectLoto7Numbers";
 
 type PredictProps = {
   quantity: string,

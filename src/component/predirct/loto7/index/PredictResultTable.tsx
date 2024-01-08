@@ -12,7 +12,7 @@ import {
   Typography
 } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { getColorByFrequence } from "./AllNumberTable";
+import { getColorByFrequence } from "../../../search/loto7/AllNumberTable";
 import { useState } from "react";
 
 type PredictResultTableProps = {
@@ -20,7 +20,7 @@ type PredictResultTableProps = {
   predict: PredictResultParams,
 };
 
-export default function PredictResultTable(props: PredictResultTableProps) {
+export default function PredictTable(props: PredictResultTableProps) {
   const [isExpand, setIsExpand] = useState(false);
 
   return (
