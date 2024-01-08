@@ -2,7 +2,6 @@ import { BASE_DIR } from "@/constants";
 import {
   PredictDispersionParams,
   PredictPostResponseParams,
-  PredictPostResponseParamsValidator,
   PredictResultParams
 } from "@/types/api/predict/loto7";
 import { join } from "path";
