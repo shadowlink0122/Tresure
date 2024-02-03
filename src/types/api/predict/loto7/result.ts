@@ -1,7 +1,7 @@
 import { PositiveIntNumberValidator } from '@/types/common';
-import { Loto7NumberValidator } from '@/types/loto7';
+import { Loto7ImplementionValidator, Loto7NumberValidator } from '@/types/loto7';
 import z from 'zod';
-import { PredictLastPickedParamsValidator, PredictPickMethodValidator } from '.';
+import { PredictDispersionParamsValidator, PredictPickMethodValidator } from '.';
 
 // --- リクエスト ---
 export const PredictResultGetRequestParamsValidator = PositiveIntNumberValidator.optional();
@@ -21,9 +21,13 @@ export type PredictResultNumbersParams = z.infer<typeof PredictResultNumbersPara
 export const PredictResultParamsValidator = z.object({
   rank: PredictResultRankParamsValidator.optional(),
   numbers: PredictResultNumbersParamsValidator.array(),
-  pick_method: PredictPickMethodValidator
+  pick_method: PredictPickMethodValidator,
+  dispersion: PredictDispersionParamsValidator
 });
 export type PredictResultParams = z.infer<typeof PredictResultParamsValidator>;
 
-export const PredictResultGetResponseParamsValidator = PredictResultParamsValidator.array();
+export const PredictResultGetResponseParamsValidator = z.object({
+  implement: Loto7ImplementionValidator,
+  result: PredictResultParamsValidator.array()
+})
 export type PredictResultGetResponseParams = z.infer<typeof PredictResultGetResponseParamsValidator>;

@@ -1,6 +1,6 @@
 import { NextApiResponse } from "next";
 import { PredictResultGetRequest, PredictResultGetResponse } from "@/interface/api/predict/loto7/result";
-import { PredictResultGetRequestParamsValidator, PredictResultGetResponseParams } from "@/types/api/predict/loto7/result";
+import { PredictResultGetRequestParamsValidator, PredictResultGetResponseParams, PredictResultParams } from "@/types/api/predict/loto7/result";
 import { getPredictFileSync } from "@/libs/predict/loto7/access_saved_predicts_file";
 import { getSavedLoto7DataSync } from "@/db/file";
 import { getWinningData } from "@/libs/predict/loto7/winning_data";
@@ -29,7 +29,11 @@ import { getWinningData } from "@/libs/predict/loto7/winning_data";
  *         number: number, // 数字
  *         is_same: "main" | "bonus" | undefined, 
  *       }
- *     ]
+ *     ],
+ *     dispersion: {
+ *       terms: number | undefined,
+ *       reverse: boolean | undefined
+ *     }
  *   },...
  * ]
  */
@@ -38,7 +42,8 @@ function GetPredictResult(
   req: PredictResultGetRequest,
   res: NextApiResponse<PredictResultGetResponse>
 ) {
-  const requestQueryId = req.query['id'];
+  const requestQueryId = req.query.id;
+  console.log(req.query);
   if (requestQueryId !== undefined) {
     // クエリにIDが含まれるときにバリデーションを行う
     const validate = PredictResultGetRequestParamsValidator.safeParse(Number(requestQueryId));
@@ -49,6 +54,8 @@ function GetPredictResult(
       });
       return;
     }
+  } else {
+    console.log('requestQuery id is undefined');
   }
 
   // 当選結果を取得する
@@ -66,7 +73,7 @@ function GetPredictResult(
   if (requestQueryId === undefined) {
     // パラメータが指定されていなければ、
     // 最新の抽選回の予想を取得する
-    requestId = loto7Data.length - 1;
+    requestId = loto7Data.length;
   }
 
   // 未抽選の場合はエラーにする
@@ -77,16 +84,18 @@ function GetPredictResult(
     });
     return;
   }
+  console.log(requestId);
 
   // 抽選結果を受け取る
   const predictResult = getPredictFileSync(requestId);
 
   // 当選確認を行う
-  const winningDataArray: PredictResultGetResponseParams = [];
+  const winningDataArray: PredictResultParams[] = [];
   if (predictResult !== null) {
     predictResult.map(item => {
       for (const predict of item.predict) {
         const res = getWinningData(loto7Data[requestId - 1], predict);
+        res.dispersion = item.dispersion;
         // 当選しているものとしていないものを分ける
         if (res.rank !== undefined) winningDataArray.push(res);
       }
@@ -97,9 +106,10 @@ function GetPredictResult(
   winningDataArray.sort((a, b) => a.rank! - b.rank!);
 
   // 当選したものだけ結果を返す
-  const result: PredictResultGetResponseParams = [
-    ...winningDataArray,
-  ];
+  const result: PredictResultGetResponseParams = {
+    implement: requestId.toString(),
+    result: winningDataArray
+  }
 
   // あたり順にソートする
   // 結果を返す

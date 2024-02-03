@@ -2,7 +2,7 @@ import { BASE_DIR } from "@/constants";
 import {
   PredictDispersionParams,
   PredictPostResponseParams,
-  PredictResultParams
+  PredictElementParams
 } from "@/types/api/predict/loto7";
 import { join } from "path";
 import fs from 'fs';
@@ -26,7 +26,7 @@ export function getPredictFileSync(implement: number) {
   return null;
 }
 
-export function savePredictSync(dispersion: PredictDispersionParams, result: PredictResultParams[], implement: number) {
+export function savePredictSync(dispersion: PredictDispersionParams, result: PredictElementParams[], implement: number) {
   Object.freeze(result);
   const nowAdding: SavedPredictType = {
     dispersion: { ...dispersion },

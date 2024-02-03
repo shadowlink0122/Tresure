@@ -1,8 +1,8 @@
 import { LOTO7 } from "@/types/loto7";
 import { PredictResultParams as WinningResult } from "@/types/api/predict/loto7/result";
-import { PredictResultParams } from "@/types/api/predict/loto7";
+import { PredictElementParams } from "@/types/api/predict/loto7";
 
-export function getWinningData(winningNumber: LOTO7, predictNumber: PredictResultParams) {
+export function getWinningData(winningNumber: LOTO7, predictNumber: PredictElementParams) {
   const result: WinningResult = {
     numbers: [],
     pick_method: predictNumber.pick_method
@@ -27,7 +27,7 @@ export function getWinningData(winningNumber: LOTO7, predictNumber: PredictResul
         // ボーナス番号の当選
         result.numbers.push({
           number: i,
-          is_same: 'main'
+          is_same: 'bonus'
         });
         bonusNumberCount += 1;
       }
