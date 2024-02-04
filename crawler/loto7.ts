@@ -2,12 +2,13 @@ import { getHtmlFromURL, writeToLocalFileSync } from './constants';
 import { LOTO7 } from '../src/types/loto7';
 import { LOTO7_FILENAME } from './constants';
 import iconv from 'iconv-lite';
+import { getSavedLoto7DataSync } from '../src/db/file';
 
-// loto variables
-const loto7Data: LOTO7[] = [];
+async function crawl(start: number) {
+  // スタート位置
+  let START_IMPLEMENT = start;
+  const result: LOTO7[] = [];
 
-async function crawl() {
-  let START_IMPLEMENT = 1;
   // データソースのHTMLを取得
   while (true) {
     // 実施回数は4桁に合わせる
@@ -28,15 +29,25 @@ async function crawl() {
       mainNumber: splitedHtml.slice(8, 15).map(Number),
       bonusNumber: splitedHtml.slice(16, 18).map(Number),
     }
-    loto7Data.push(loto7);
+    result.push(loto7);
     START_IMPLEMENT += 1;
   }
+  return result;
 }
 
 export async function Loto7Crawler() {
+  const fileContent = getSavedLoto7DataSync();
+  const startNum = (fileContent !== null && fileContent.length !== 0) ? fileContent!.length + 1 : 1;
   // クローリング
-  await crawl();
+  const result = await crawl(startNum);
 
   // データを保存
-  writeToLocalFileSync(LOTO7_FILENAME, loto7Data);
+  if (startNum !== 1) {
+    // 最後にデータを追加
+    const res = [...fileContent!, ...result];
+    writeToLocalFileSync(LOTO7_FILENAME, res);
+  } else {
+    // すべてのデータを追加
+    writeToLocalFileSync(LOTO7_FILENAME, result);
+  }
 }

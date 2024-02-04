@@ -62,7 +62,7 @@ function PostSearchAllNumberAppearence(
   // データ検索
   const { is_main_number, terms } = req.body;
   const searchResult: SearchAllNumberAppearenceResponseParams =
-    getAllNumberAppearence(loto7Result!.slice(0, terms), is_main_number);
+    getAllNumberAppearence(loto7Result!.reverse().slice(0, terms), is_main_number);
 
   // レスポンス
   res.status(200).json({
