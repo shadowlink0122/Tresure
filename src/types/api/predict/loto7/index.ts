@@ -4,10 +4,13 @@ import z from 'zod';
 import { AllNumberAppearenceStatusValidator } from '../../search/loto7/all_number_appearence';
 
 // リクエスト
-const MaxExcludeNumberLength = 20;
-const PredictQuantityValidator = PositiveIntNumberValidator;
-const PredictNecessaryNumberValidator = Loto7NumberValidator.array().min(0);
-const PredictExcludeNumberValidator = Loto7NumberValidator.array().min(0).max(MaxExcludeNumberLength);
+export const MaxExcludeNumberLength = 20;
+export const PredictQuantityValidator = PositiveIntNumberValidator;
+export type PredictQuantity = z.infer<typeof PredictQuantityValidator>;
+export const PredictNecessaryNumberValidator = Loto7NumberValidator.array().min(0);
+export type PredictNecessaryNumber = z.infer<typeof PredictNecessaryNumberValidator>;
+export const PredictExcludeNumberValidator = Loto7NumberValidator.array().min(0).max(MaxExcludeNumberLength);
+export type PredictExcludeNumber = z.infer<typeof PredictExcludeNumberValidator>
 export const PredictDispersionParamsValidator = z.object({
   terms: PositiveIntNumberValidator.optional(),
   reverse: z.boolean().optional(),

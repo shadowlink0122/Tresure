@@ -6,7 +6,7 @@ type SimpleButtonProps = {
   title: string,
   color: ButtonColor,
   disabled: boolean,
-  onClick: () => {},
+  onClick: () => void,
 };
 
 export default function SimpleButton(props: SimpleButtonProps) {

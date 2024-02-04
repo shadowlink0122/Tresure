@@ -8,6 +8,7 @@ import { NumberDispersion, predict } from "@/libs/predict/loto7";
 import { getAllNumberAppearence } from "@/libs/search/loto7/all_number_appearence";
 import { getAppearance } from "@/libs/search/appearance";
 import { hasSameNumber } from "@/libs/predict/loto7/has_same_number";
+import { savePredictSync } from "@/libs/predict/loto7/access_saved_predicts_file";
 /**
  * ロト７の予想を取得するAPI
  * 予想と、それに関連するデータを返す
@@ -135,7 +136,6 @@ function PostPredictNumber(
   if (necessary.length < 7) {
     // ランダムに選ばれない数字
     const excludeRandomChoose: number[] = [...necessary, ...exclude];
-    console.log(excludeRandomChoose);
     excludeRandomChoose.map(item => {
       randomChoosedNumbers = randomChoosedNumbers.filter(i => i.number !== item);
     });
@@ -239,6 +239,17 @@ function PostPredictNumber(
     res.status(400).json({
       status: 'NG',
       error_message: validateResponse.error.message,
+      result: result
+    });
+    return;
+  }
+  // 保存する
+  const isSaved = savePredictSync(dispersion, result, loto7Data.length + 1);
+  if (!isSaved) {
+    // 保存に失敗
+    res.status(400).json({
+      status: 'NG',
+      error_message: `Internal Server Error: 抽選結果を保存できませんでした`,
       result: result
     });
     return;
