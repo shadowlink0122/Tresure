@@ -1,3 +1,4 @@
+import TresureMenu from "@/component/TresureMenu";
 import PredictTable from "@/component/predirct/loto7/index/PredictTable";
 import SelectPredict from "@/component/predirct/loto7/index/SelectPredict";
 import { execPredictPostRequest } from "@/libs/api_client/predict/loto7";
@@ -58,38 +59,42 @@ export default function Predict() {
     }
   }
   return (
-    <List>
-      <ListItem>
-        <Stack direction='row' spacing={1}>
-          <SelectPredict
-            quantity={quantity}
-            setQuantity={setQuantity}
-            necessary={necessaryNumbers}
-            setNecessary={setNecessaryNumbers}
-            exclude={excludeNumbers}
-            setExclude={setExcludeNumbers}
-            dispersion={dispersion}
-            setDispersion={setDispersion}
-            terms={terms}
-            setTerms={setTerms}
-            reverse={reverse}
-            setReverse={setReverse}
-            handlePredictRequest={handlePredictRequest}
-          >
-          </SelectPredict>
-        </Stack>
-      </ListItem>
-      {predictResult.map((item, index) => (
-        <>
-          <ListItem>
-            <PredictTable
-              titile={`抽選結果${index + 1}`}
-              predict={item}
-            />
-          </ListItem>
-        </>
-      ))}
-    </List >
+    <>
+      <TresureMenu />
+
+      <List>
+        <ListItem>
+          <Stack direction='row' spacing={1}>
+            <SelectPredict
+              quantity={quantity}
+              setQuantity={setQuantity}
+              necessary={necessaryNumbers}
+              setNecessary={setNecessaryNumbers}
+              exclude={excludeNumbers}
+              setExclude={setExcludeNumbers}
+              dispersion={dispersion}
+              setDispersion={setDispersion}
+              terms={terms}
+              setTerms={setTerms}
+              reverse={reverse}
+              setReverse={setReverse}
+              handlePredictRequest={handlePredictRequest}
+            >
+            </SelectPredict>
+          </Stack>
+        </ListItem>
+        {predictResult.map((item, index) => (
+          <>
+            <ListItem>
+              <PredictTable
+                titile={`抽選結果${index + 1}`}
+                predict={item}
+              />
+            </ListItem>
+          </>
+        ))}
+      </List >
+    </>
   )
 }
 

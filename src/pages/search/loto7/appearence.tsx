@@ -5,6 +5,7 @@ import { SearchAppearenceRequestParams, SearchAppearenceResponseParams } from "@
 import { execSearchAppearence } from "@/libs/api_client/search/loto7/appearence";
 import HistoryTable from "@/component/search/loto7/HistoryTable";
 import { List, ListItem, Stack } from "@mui/material";
+import TresureMenu from "@/component/TresureMenu";
 
 export default function Appearence() {
   const [isMainNumber, setIsMainNumber] = useState<boolean>(true);
@@ -20,32 +21,35 @@ export default function Appearence() {
     }
   };
   return (
-    <List>
-      <ListItem>
-        <Stack direction='row' spacing={1}>
-          <SelectSearchAppearence
-            isMainNumber={isMainNumber}
-            setIsMainNumber={setIsMainNumber}
-            numbers={numbers}
-            setNumbers={setNumbers}
-            canSearch={canSearch}
-            handleSearchAppearence={handleSearchAppearence}
-          >
-          </SelectSearchAppearence>
-        </Stack>
-      </ListItem>
-      {searchResult?.map(item => (
-        <>
-          <ListItem>
-            <Stack direction='row' spacing={1}>
-              <HistoryTable
-                title={`検索結果: ${item.number} (合計${item.appearences.length})`}
-                loto7={item.appearences}
-              />
-            </Stack >
-          </ListItem>
-        </>
-      ))}
-    </List >
+    <>
+      <TresureMenu />
+      <List>
+        <ListItem>
+          <Stack direction='row' spacing={1}>
+            <SelectSearchAppearence
+              isMainNumber={isMainNumber}
+              setIsMainNumber={setIsMainNumber}
+              numbers={numbers}
+              setNumbers={setNumbers}
+              canSearch={canSearch}
+              handleSearchAppearence={handleSearchAppearence}
+            >
+            </SelectSearchAppearence>
+          </Stack>
+        </ListItem>
+        {searchResult?.map(item => (
+          <>
+            <ListItem>
+              <Stack direction='row' spacing={1}>
+                <HistoryTable
+                  title={`検索結果: ${item.number} (合計${item.appearences.length})`}
+                  loto7={item.appearences}
+                />
+              </Stack >
+            </ListItem>
+          </>
+        ))}
+      </List >
+    </>
   );
 }

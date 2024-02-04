@@ -1,9 +1,10 @@
 import SimpleButton from "@/component/SimpleButton";
+import TresureMenu from "@/component/TresureMenu";
 import AllNumberTable from "@/component/search/loto7/AllNumberTable";
 import { execSearchAllNumberAppearence } from "@/libs/api_client/search/loto7/all_number_appearence";
 import { SearchAllNumberAppearenceRequestParams, SearchAllNumberAppearenceRequestParamsValidator, SearchAllNumberAppearenceResponseParams } from "@/types/api/search/loto7/all_number_appearence";
 import { List, ListItem, Stack, TextField } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 
 export default function AllNumberAppearence() {
@@ -44,28 +45,31 @@ export default function AllNumberAppearence() {
   }
 
   return (
-    <List>
-      <ListItem>
-        <TextField
-          value={terms}
-          onChange={(e) => setTerms(e.target.value)}
-        />
-      </ListItem>
-      <ListItem>
-        <Stack direction='row' spacing={1}>
-          <SimpleButton
-            title="検索"
-            color="info"
-            disabled={false}
-            onClick={async () => { await handleSearch() }}
+    <>
+      <TresureMenu />
+      <List>
+        <ListItem>
+          <TextField
+            value={terms}
+            onChange={(e) => setTerms(e.target.value)}
           />
-        </Stack>
-      </ListItem>
-      <AllNumberTable
-        terms={changeTerms(terms)}
-        numbers={numbers}
-      />
-    </List>
+        </ListItem>
+        <ListItem>
+          <Stack direction='row' spacing={1}>
+            <SimpleButton
+              title="検索"
+              color="info"
+              disabled={false}
+              onClick={async () => { await handleSearch() }}
+            />
+          </Stack>
+        </ListItem>
+        <AllNumberTable
+          terms={changeTerms(terms)}
+          numbers={numbers}
+        />
+      </List>
+    </>
   )
 }
 
