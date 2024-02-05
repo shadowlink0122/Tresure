@@ -66,7 +66,7 @@ export const CategoryInfomationList: MenuItem[] = [
       },
       {
         title: '予想',
-        description: 'ロト7の予想をコンピュータが行います。\n必要なパラメータを設定し、抽選を行ってください',
+        description: '第${nextImplementNumber}回ロト7の予想を行います。\n必要なパラメータを設定し、抽選を行ってください',
         link: '/predict/loto7',
         icon: Create
       },

@@ -4,15 +4,17 @@ import {
 } from '@mui/material';
 import { GetDescription } from '@/libs/CategoryInfomation';
 
-type TresureMenuProps = {
-  path: string
+type TresureHeaderProps = {
+  path?: string,
+  message?: string
 };
 
-export default function TresureHeader(props: TresureMenuProps) {
+export default function TresureHeader(props: TresureHeaderProps) {
+  const headerText = props.path ? GetDescription(props.path) : props.message!;
   return (
     <>
       <Typography sx={{ height: 20 }}></Typography>
-      {GetDescription(props.path).split('\n').map(item => {
+      {headerText.split('\n').map(item => {
         return (
           <>
             <Typography sx={{ minHeight: 30 }}>
