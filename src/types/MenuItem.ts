@@ -1,24 +1,24 @@
-import { SvgIconComponent } from "@mui/icons-material";
+import { SvgIconComponent } from '@mui/icons-material';
 
 export type MenuItemElement = {
   /** 機能名 */
-  title: string,
+  title: string;
   /** ページ概要 */
-  description: string,
+  description: string;
   /** リンク */
-  link: string,
+  link: string;
   /** 表示アイコン */
-  icon: SvgIconComponent
-}
+  icon: SvgIconComponent;
+};
 
 export type MenuItem = {
   /** サービスのコンテンツ名(ロト7, ロト6, etc...) */
   info: {
     /** コンテンツ名 */
-    name: string,
+    name: string;
     /** リンク */
-    link: string,
-  },
+    link: string;
+  };
   /** コンテンツの機能 */
-  content: MenuItemElement[]
+  content: MenuItemElement[];
 };

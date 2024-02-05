@@ -1,12 +1,9 @@
-import {
-  Divider,
-  Typography,
-} from '@mui/material';
+import { Divider, Typography } from '@mui/material';
 import { GetDescription } from '@/libs/CategoryInfomation';
 
 type TresureHeaderProps = {
-  path?: string,
-  message?: string
+  path?: string;
+  message?: string;
 };
 
 export default function TresureHeader(props: TresureHeaderProps) {
@@ -14,16 +11,14 @@ export default function TresureHeader(props: TresureHeaderProps) {
   return (
     <>
       <Typography sx={{ height: 20 }}></Typography>
-      {headerText.split('\n').map(item => {
+      {headerText.split('\n').map((item) => {
         return (
           <>
-            <Typography sx={{ minHeight: 30 }}>
-              {item}
-            </Typography>
+            <Typography sx={{ minHeight: 30 }}>{item}</Typography>
           </>
-        )
+        );
       })}
       <Divider />
     </>
-  )
+  );
 }

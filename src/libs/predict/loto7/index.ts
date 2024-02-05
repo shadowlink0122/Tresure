@@ -1,14 +1,18 @@
 export type NumberDispersion = {
-  number: number,
-  weight: number
+  number: number;
+  weight: number;
 };
 
 function deleteByIndex(array: NumberDispersion[], num: number) {
   return array.filter((_, i) => i != num);
 }
 
-export function predict(necessaryNumbers: NumberDispersion[], randomChoosedNumbers: NumberDispersion[], reverse: boolean) {
-  let necNumbers = necessaryNumbers.map(item => Object.create(item));
+export function predict(
+  necessaryNumbers: NumberDispersion[],
+  randomChoosedNumbers: NumberDispersion[],
+  reverse: boolean,
+) {
+  let necNumbers = necessaryNumbers.map((item) => Object.create(item));
   let randNumbers = [...randomChoosedNumbers];
   let result: NumberDispersion[] = [];
   const MAX_PICK_COUNT = 7;
@@ -16,15 +20,19 @@ export function predict(necessaryNumbers: NumberDispersion[], randomChoosedNumbe
   // 重みを逆転させる
   if (reverse) {
     // 重みでソートする
-    necNumbers.sort((a, b) => a.weight > b.weight ? 1 : -1);
-    randNumbers.sort((a, b) => a.weight > b.weight ? 1 : -1);
+    necNumbers.sort((a, b) => (a.weight > b.weight ? 1 : -1));
+    randNumbers.sort((a, b) => (a.weight > b.weight ? 1 : -1));
     // 端っこから入れ替えていく
     for (let i = 0; i < necNumbers.length / 2; i += 1) {
-      [necNumbers[i].weight, necNumbers[necNumbers.length - 1 - i].weight] = [necNumbers[necNumbers.length - 1 - i].weight, necNumbers[i].weight];
+      [necNumbers[i].weight, necNumbers[necNumbers.length - 1 - i].weight] = [
+        necNumbers[necNumbers.length - 1 - i].weight,
+        necNumbers[i].weight,
+      ];
       // [necNumbers[i].weight, necNumbers[necNumbers.length - 1 - i].weight] = [1000, 1];
     }
     for (let i = 0; i < randNumbers.length / 2; i += 1) {
-      [randNumbers[i].weight, randNumbers[randNumbers.length - 1 - i].weight] = [randNumbers[randNumbers.length - 1 - i].weight, randNumbers[i].weight];
+      [randNumbers[i].weight, randNumbers[randNumbers.length - 1 - i].weight] =
+        [randNumbers[randNumbers.length - 1 - i].weight, randNumbers[i].weight];
     }
   }
 
@@ -34,7 +42,10 @@ export function predict(necessaryNumbers: NumberDispersion[], randomChoosedNumbe
     result = [...necNumbers];
   } else {
     // 必要数だけで抽選を行う
-    let totalNecNumbersWeight = necNumbers.reduce((total, item) => total + item.weight, 0);
+    let totalNecNumbersWeight = necNumbers.reduce(
+      (total, item) => total + item.weight,
+      0,
+    );
     // 選ぶ個数
     let pickCount = MAX_PICK_COUNT;
     // 抽選
@@ -58,12 +69,15 @@ export function predict(necessaryNumbers: NumberDispersion[], randomChoosedNumbe
       necNumbers = deleteByIndex(necNumbers, i);
     }
     // 番号順にソートする
-    result.sort((a, b) => a.number > b.number ? 1 : -1);
+    result.sort((a, b) => (a.number > b.number ? 1 : -1));
     return result;
   }
 
   // --- ランダム抽選を入れる ---
-  let totalRandomChooseNumbersWeight = randNumbers.reduce((total, item) => total + item.weight, 0);
+  let totalRandomChooseNumbersWeight = randNumbers.reduce(
+    (total, item) => total + item.weight,
+    0,
+  );
   let pickCount = MAX_PICK_COUNT - result.length; // 残りの回数
   while (pickCount-- > 0) {
     // 重みを使って選ぶ
@@ -85,6 +99,6 @@ export function predict(necessaryNumbers: NumberDispersion[], randomChoosedNumbe
     randNumbers = deleteByIndex(randNumbers, i);
   }
   // 番号順にソートする
-  result.sort((a, b) => a.number > b.number ? 1 : -1);
+  result.sort((a, b) => (a.number > b.number ? 1 : -1));
   return result;
 }

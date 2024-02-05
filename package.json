@@ -9,6 +9,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "format": "prettier --write --ignore-path .gitignore './**/*.{js,jsx,ts,tsx,json,css}'",
     "crawl": "node --loader ts-node/esm --experimental-specifier-resolution=node  crawler/main.ts "
   },
   "devDependencies": {
@@ -38,13 +39,16 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@typescript-eslint/parser": "^6.20.0",
     "eslint": "^8",
     "eslint-config-next": "14.0.4",
+    "eslint-config-prettier": "^9.1.0",
     "fs-extra": "^11.2.0",
     "got": "^9.6.0",
     "iconv-lite": "^0.6.3",
     "jsdom": "^23.0.1",
     "node-fetch": "^3.3.2",
+    "prettier": "^3.2.5",
     "styled-components": "^6.1.8",
     "ts-node": "^10.9.2",
     "ts-to-zod": "^3.5.0"

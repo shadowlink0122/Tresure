@@ -1,10 +1,5 @@
-import { MenuItem } from "@/types/MenuItem";
-import {
-  Create,
-  PlaylistAddCheck,
-  Search
-} from '@mui/icons-material';
-
+import { MenuItem } from '@/types/MenuItem';
+import { Create, PlaylistAddCheck, Search } from '@mui/icons-material';
 
 /**
  * メニューバーのタイトルを作成する
@@ -14,8 +9,8 @@ import {
 export function CreateAppbarTitle(url: string) {
   const path = url.split('?')[0];
   let title = '';
-  CategoryInfomationList.map(category => {
-    category.content.map(item => {
+  CategoryInfomationList.map((category) => {
+    category.content.map((item) => {
       if (item.link === path) title = `${category.info.name}/${item.title}`;
     });
   });
@@ -30,8 +25,8 @@ export function CreateAppbarTitle(url: string) {
 export function GetDescription(url: string) {
   const path = url.split('?')[0];
   let description = '';
-  CategoryInfomationList.map(category => {
-    category.content.map(item => {
+  CategoryInfomationList.map((category) => {
+    category.content.map((item) => {
       if (item.link === path) description = item.description;
     });
   });
@@ -44,12 +39,12 @@ export const CategoryInfomationList: MenuItem[] = [
       name: 'Top',
       link: '/',
     },
-    content: []
+    content: [],
   },
   {
     info: {
       name: 'ロト7',
-      link: ''
+      link: '',
     },
     content: [
       {
@@ -62,20 +57,21 @@ export const CategoryInfomationList: MenuItem[] = [
         title: '出現数検索',
         description: '過去のデータから、全ての数字の出現数を検索できます',
         link: '/search/loto7/all_number_appearence',
-        icon: Search
+        icon: Search,
       },
       {
         title: '予想',
-        description: '第${nextImplementNumber}回ロト7の予想を行います。\n必要なパラメータを設定し、抽選を行ってください',
+        description:
+          '第${nextImplementNumber}回ロト7の予想を行います。\n必要なパラメータを設定し、抽選を行ってください',
         link: '/predict/loto7',
-        icon: Create
+        icon: Create,
       },
       {
         title: '予想結果',
         description: 'ユーザのロト7の予想結果です。',
         link: '/predict/loto7/result',
-        icon: PlaylistAddCheck
-      }
-    ]
-  }
-]
+        icon: PlaylistAddCheck,
+      },
+    ],
+  },
+];

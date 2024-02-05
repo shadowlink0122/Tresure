@@ -6,12 +6,12 @@ function random() {
   let lotoSize = LOTO.length;
   let pickCount = pick < lotoSize ? pick : lotoSize;
   while (pickCount-- > 0) {
-    let i = Math.random() * lotoSize | 0;
+    let i = (Math.random() * lotoSize) | 0;
     result[pickCount] = tmp[i] || LOTO[i];
     --lotoSize;
     tmp[i] = tmp[lotoSize] || LOTO[lotoSize];
   }
-  return result.sort((a, b) => a > b ? 1 : -1);
+  return result.sort((a, b) => (a > b ? 1 : -1));
 }
 
 function main() {
@@ -21,4 +21,3 @@ function main() {
   }
 }
 main();
-

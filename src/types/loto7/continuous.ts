@@ -9,6 +9,4 @@ const Loto7ContinuousNumberValidator = z.object({
 });
 type Loto7ContinuousNumber = z.infer<typeof Loto7ContinuousNumberValidator>;
 
-export type {
-  Loto7ContinuousNumber,
-}
+export type { Loto7ContinuousNumber };

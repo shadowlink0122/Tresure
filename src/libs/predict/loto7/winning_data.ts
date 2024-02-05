@@ -1,43 +1,46 @@
-import { LOTO7 } from "@/types/loto7";
-import { PredictResultParams as WinningResult } from "@/types/api/predict/loto7/result";
-import { PredictElementParams } from "@/types/api/predict/loto7";
+import { LOTO7 } from '@/types/loto7';
+import { PredictResultParams as WinningResult } from '@/types/api/predict/loto7/result';
+import { PredictElementParams } from '@/types/api/predict/loto7';
 
-export function getWinningData(winningNumber: LOTO7, predictNumber: PredictElementParams) {
+export function getWinningData(
+  winningNumber: LOTO7,
+  predictNumber: PredictElementParams,
+) {
   const result: WinningResult = {
     numbers: [],
-    pick_method: predictNumber.pick_method
+    pick_method: predictNumber.pick_method,
   };
   let mainNumberCount = 0;
   let bonusNumberCount = 0;
 
   // 当選した数を確認する
-  predictNumber.result.map(item => {
-    winningNumber.mainNumber.map(i => {
+  predictNumber.result.map((item) => {
+    winningNumber.mainNumber.map((i) => {
       if (item.number === i) {
         // 本番号の当選
         result.numbers.push({
           number: i,
-          is_same: 'main'
+          is_same: 'main',
         });
         mainNumberCount += 1;
       }
     });
-    winningNumber.bonusNumber.map(i => {
+    winningNumber.bonusNumber.map((i) => {
       if (item.number === i) {
         // ボーナス番号の当選
         result.numbers.push({
           number: i,
-          is_same: 'bonus'
+          is_same: 'bonus',
         });
         bonusNumberCount += 1;
       }
     });
   });
-  predictNumber.result.map(item => {
+  predictNumber.result.map((item) => {
     let isContained = false;
-    result.numbers.map(i => {
+    result.numbers.map((i) => {
       if (item.number === i.number) isContained = true;
-    })
+    });
     if (!isContained) {
       // 当選していない数字を入れる
       result.numbers.push({

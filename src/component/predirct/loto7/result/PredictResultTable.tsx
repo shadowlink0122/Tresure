@@ -1,12 +1,26 @@
-import { PredictResultParams, PredictResultIsSameParams } from "@/types/api/predict/loto7/result";
-import { Accordion, AccordionSummary, List, ListItem, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
+import {
+  PredictResultParams,
+  PredictResultIsSameParams,
+} from '@/types/api/predict/loto7/result';
+import {
+  Accordion,
+  AccordionSummary,
+  List,
+  ListItem,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Typography,
+} from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { PredictPickMethod } from "@/types/api/predict/loto7";
+import { PredictPickMethod } from '@/types/api/predict/loto7';
 
 type PredictResultProps = {
-  title: string,
-  result: PredictResultParams[]
-}
+  title: string;
+  result: PredictResultParams[];
+};
 
 export default function PredictResultTable(props: PredictResultProps) {
   const getPickMethodName = (method: PredictPickMethod) => {
@@ -19,7 +33,7 @@ export default function PredictResultTable(props: PredictResultProps) {
         break;
     }
     return '';
-  }
+  };
   const getColor = (isSame: PredictResultIsSameParams) => {
     switch (isSame) {
       case 'main':
@@ -30,20 +44,20 @@ export default function PredictResultTable(props: PredictResultProps) {
         break;
     }
     return '';
-  }
+  };
 
   const handleGetSubTitle = () => {
     let subTitle = '';
-    const randomLength = props.result.filter(item => item.pick_method === 'random').length;
-    const dispersionLength = props.result.filter(item => item.pick_method === 'dispersion').length;
+    const randomLength = props.result.filter(
+      (item) => item.pick_method === 'random',
+    ).length;
+    const dispersionLength = props.result.filter(
+      (item) => item.pick_method === 'dispersion',
+    ).length;
     if (randomLength > 0) subTitle += `ランダム: ${randomLength},\n`;
     if (dispersionLength > 0) subTitle += `重み付け: ${dispersionLength}`;
-    return (
-      <>
-        {subTitle}
-      </>
-    );
-  }
+    return <>{subTitle}</>;
+  };
 
   return (
     <Accordion sx={{ minWidth: 500 }}>
@@ -53,7 +67,8 @@ export default function PredictResultTable(props: PredictResultProps) {
         id="panel1a-header"
       >
         <Typography>
-          {props.title}<br />
+          {props.title}
+          <br />
           {handleGetSubTitle()}
         </Typography>
       </AccordionSummary>
@@ -67,24 +82,26 @@ export default function PredictResultTable(props: PredictResultProps) {
               <TableCell>番号</TableCell>
             </TableHead>
 
-            {props.result.map(item => (
+            {props.result.map((item) => (
               <>
                 <TableBody>
                   <TableRow>
                     <TableCell>{getPickMethodName(item.pick_method)}</TableCell>
                     <TableCell>
-                      {
-                        (item.pick_method === 'dispersion') ? (item.dispersion!.terms ? item.dispersion!.terms : '全て')
-                          : ''
-                      }
+                      {item.pick_method === 'dispersion'
+                        ? item.dispersion!.terms
+                          ? item.dispersion!.terms
+                          : '全て'
+                        : ''}
                     </TableCell>
                     <TableCell>
-                      {
-                        (item.pick_method === 'dispersion') ? (!item.dispersion!.reverse ? '多い順' : '少ない順')
-                          : ''
-                      }
+                      {item.pick_method === 'dispersion'
+                        ? !item.dispersion!.reverse
+                          ? '多い順'
+                          : '少ない順'
+                        : ''}
                     </TableCell>
-                    {item.numbers.map(num => (
+                    {item.numbers.map((num) => (
                       <>
                         <TableCell
                           sx={{ backgroundColor: getColor(num.is_same) }}
@@ -99,7 +116,7 @@ export default function PredictResultTable(props: PredictResultProps) {
             ))}
           </Table>
         </ListItem>
-      </List >
-    </Accordion >
-  )
+      </List>
+    </Accordion>
+  );
 }

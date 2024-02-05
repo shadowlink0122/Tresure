@@ -2,14 +2,17 @@ import { getAppearance } from '@/libs/search/appearance';
 import { getSavedLoto7DataSync } from '@/db/file';
 import {
   SearchAppearenceRequestParamsValidator,
-  SearchAppearenceResponseParams
+  SearchAppearenceResponseParams,
 } from '@/types/api/search/loto7/appearence';
-import { SearchAppearenceRequest, SearchAppearenceResponse } from '@/interface/api/search/loto7/appearence';
+import {
+  SearchAppearenceRequest,
+  SearchAppearenceResponse,
+} from '@/interface/api/search/loto7/appearence';
 import { NextApiResponse } from 'next';
 
 /**
  * 数字の出現数を出すAPI
- * 
+ *
  * -- リクエスト --
  * method: POST
  * parameters:
@@ -17,7 +20,7 @@ import { NextApiResponse } from 'next';
  *    - 本番号 もしくは ボーナス番号 を返す
  *  - numbers: [ 1 to 37, unique number ]
  *    - 検索したい数字の配列
- * 
+ *
  * -- レスポンス --
  * status_code:
  *  - 200: success
@@ -34,9 +37,11 @@ import { NextApiResponse } from 'next';
 
 function PostSearchAppearence(
   req: SearchAppearenceRequest,
-  res: NextApiResponse<SearchAppearenceResponse>
+  res: NextApiResponse<SearchAppearenceResponse>,
 ) {
-  const requestParams = SearchAppearenceRequestParamsValidator.safeParse(req.body);
+  const requestParams = SearchAppearenceRequestParamsValidator.safeParse(
+    req.body,
+  );
   if (!requestParams.success) {
     // バリデーションが失敗した場合
     res.status(400).json({
@@ -53,7 +58,7 @@ function PostSearchAppearence(
   if (loto7Result === null) {
     res.status(500).json({
       status: 'NG',
-      error_message: 'Can\'t load LOTO7 Result file.',
+      error_message: "Can't load LOTO7 Result file.",
       result: [],
     });
   }
@@ -64,7 +69,7 @@ function PostSearchAppearence(
     const res = getAppearance(loto7Result!, num, is_main_number);
     searchResult.push({
       number: num,
-      appearences: res
+      appearences: res,
     });
   }
 
@@ -72,14 +77,14 @@ function PostSearchAppearence(
   res.status(200).json({
     status: 'OK',
     error_message: null,
-    result: searchResult
+    result: searchResult,
   });
   return;
 }
 
 export default function handler(
   req: SearchAppearenceRequest,
-  res: NextApiResponse<SearchAppearenceResponse>
+  res: NextApiResponse<SearchAppearenceResponse>,
 ) {
   switch (req.method) {
     case 'POST':
@@ -91,10 +96,9 @@ export default function handler(
       res.status(400).json({
         status: 'NG',
         error_message: `Not supported method: ${req.method}.`,
-        result: []
+        result: [],
       });
       break;
   }
   return;
 }
-

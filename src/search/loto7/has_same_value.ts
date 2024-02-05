@@ -5,13 +5,13 @@ import { Loto7Occur, Loto7OccurDict } from '../../types/loto7/occurrence';
 import fs from 'fs';
 
 export type hasSameValue = {
-  implement: string[],
-  sameValue: number[]
+  implement: string[];
+  sameValue: number[];
 };
 
 export type HasSameValueDict = {
-  [key: number]: hasSameValue[]
-}
+  [key: number]: hasSameValue[];
+};
 
 export function getSameValue(a: number[], b: LOTO7) {
   const result: number[] = [];
@@ -27,7 +27,7 @@ export function getSameValue(a: number[], b: LOTO7) {
 }
 
 export function hasSameValue(target: number[], loto7: LOTO7[]) {
-  const result: HasSameValueDict = {}
+  const result: HasSameValueDict = {};
   for (let i = 0; i < target.length; i += 1) {
     for (let j = i + 1; j < loto7.length; j += 1) {
       const set = new Set([...target, ...loto7[j].mainNumber]);
@@ -35,14 +35,15 @@ export function hasSameValue(target: number[], loto7: LOTO7[]) {
       if (result[lengthDiff] !== undefined) {
         result[lengthDiff].push({
           implement: [loto7[i].implemention, loto7[j].implemention],
-          sameValue: getSameValue(target, loto7[j])
+          sameValue: getSameValue(target, loto7[j]),
         });
-      }
-      else {
-        result[lengthDiff] = [{
-          implement: [loto7[i].implemention, loto7[j].implemention],
-          sameValue: getSameValue(target, loto7[j])
-        }]
+      } else {
+        result[lengthDiff] = [
+          {
+            implement: [loto7[i].implemention, loto7[j].implemention],
+            sameValue: getSameValue(target, loto7[j]),
+          },
+        ];
       }
     }
   }

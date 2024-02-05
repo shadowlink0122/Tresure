@@ -8,11 +8,9 @@ type TresureResponseStatus = 'OK' | 'NG';
  */
 interface TresureResponseBase {
   /** ステータス */
-  status: TresureResponseStatus,
+  status: TresureResponseStatus;
   /** メッセージ */
-  error_message: string | null
-};
+  error_message: string | null;
+}
 
-export type {
-  TresureResponseBase,
-};
+export type { TresureResponseBase };

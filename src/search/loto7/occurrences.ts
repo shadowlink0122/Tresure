@@ -22,7 +22,7 @@ export function mainNumberOccurrences(loto7: LOTO7[]) {
   for (const key of keys) {
     occurResult.push({
       mainNumber: Number(key),
-      count: occurDict[Number(key)]
+      count: occurDict[Number(key)],
     });
   }
 
@@ -37,7 +37,7 @@ export function mainNumberOccurrences(loto7: LOTO7[]) {
     console.log(`${res.mainNumber}: ${res.count} (${ratio} %)`);
   }
 
-  return [occurDict, occurResult]
+  return [occurDict, occurResult];
 }
 
 async function main() {
