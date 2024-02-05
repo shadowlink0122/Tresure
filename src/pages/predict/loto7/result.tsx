@@ -1,3 +1,4 @@
+import TresureHeader from "@/component/TresureHeader";
 import TresureMenu from "@/component/TresureMenu";
 import PredictResultTable from "@/component/predirct/loto7/result/PredictResultTable";
 import { execPredictResultGetRequest } from "@/libs/api_client/predict/loto7/result";
@@ -42,9 +43,15 @@ export default function PredictResult() {
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading, router]);
+  console.log(router.asPath);
   return (
     <>
-      <TresureMenu />
+      <TresureMenu
+        path={router.asPath}
+      />
+      <TresureHeader
+        path={router.asPath}
+      />
       <List>
         <ListItem>
           <Typography>

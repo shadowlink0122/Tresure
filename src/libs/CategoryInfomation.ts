@@ -1,0 +1,81 @@
+import { MenuItem } from "@/types/MenuItem";
+import {
+  Create,
+  PlaylistAddCheck,
+  Search
+} from '@mui/icons-material';
+
+
+/**
+ * メニューバーのタイトルを作成する
+ * @param url 相対パス
+ * @returns メニューバーのタイトル
+ */
+export function CreateAppbarTitle(url: string) {
+  const path = url.split('?')[0];
+  let title = '';
+  CategoryInfomationList.map(category => {
+    category.content.map(item => {
+      if (item.link === path) title = `${category.info.name}/${item.title}`;
+    });
+  });
+  return title;
+}
+
+/**
+ * メニューバーのタイトルを作成する
+ * @param url 相対パス
+ * @returns メニューバーのタイトル
+ */
+export function GetDescription(url: string) {
+  const path = url.split('?')[0];
+  let description = '';
+  CategoryInfomationList.map(category => {
+    category.content.map(item => {
+      if (item.link === path) description = item.description;
+    });
+  });
+  return description;
+}
+
+export const CategoryInfomationList: MenuItem[] = [
+  {
+    info: {
+      name: 'Top',
+      link: '/',
+    },
+    content: []
+  },
+  {
+    info: {
+      name: 'ロト7',
+      link: ''
+    },
+    content: [
+      {
+        title: '出現回検索',
+        description: '過去のデータから、数字が出現した回を検索できます',
+        link: '/search/loto7/appearence',
+        icon: Search,
+      },
+      {
+        title: '出現数検索',
+        description: '過去のデータから、全ての数字の出現数を検索できます',
+        link: '/search/loto7/all_number_appearence',
+        icon: Search
+      },
+      {
+        title: '予想',
+        description: 'ロト7の予想をコンピュータが行います。\n必要なパラメータを設定し、抽選を行ってください',
+        link: '/predict/loto7',
+        icon: Create
+      },
+      {
+        title: '予想結果',
+        description: 'ユーザのロト7の予想結果です。',
+        link: '/predict/loto7/result',
+        icon: PlaylistAddCheck
+      }
+    ]
+  }
+]

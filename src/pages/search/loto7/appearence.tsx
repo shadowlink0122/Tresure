@@ -1,13 +1,15 @@
 import { useState } from "react";
 import SelectSearchAppearence from "@/component/search/loto7/SelectSearchAppearence";
-import SimpleButton from "@/component/SimpleButton";
 import { SearchAppearenceRequestParams, SearchAppearenceResponseParams } from "@/types/api/search/loto7/appearence";
 import { execSearchAppearence } from "@/libs/api_client/search/loto7/appearence";
 import HistoryTable from "@/component/search/loto7/HistoryTable";
 import { List, ListItem, Stack } from "@mui/material";
 import TresureMenu from "@/component/TresureMenu";
+import { useRouter } from "next/router";
+import TresureHeader from "@/component/TresureHeader";
 
 export default function Appearence() {
+  const router = useRouter();
   const [isMainNumber, setIsMainNumber] = useState<boolean>(true);
   const [numbers, setNumbers] = useState<number[]>([]);
   const [searchResult, setSearchResult] = useState<SearchAppearenceResponseParams>();
@@ -22,7 +24,12 @@ export default function Appearence() {
   };
   return (
     <>
-      <TresureMenu />
+      <TresureMenu
+        path={router.asPath}
+      />
+      <TresureHeader
+        path={router.asPath}
+      />
       <List>
         <ListItem>
           <Stack direction='row' spacing={1}>

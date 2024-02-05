@@ -19,9 +19,13 @@ import {
 import Link from 'next/link';
 import { useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
-import { MenuItemList } from '@/libs/MenuItem';
+import { CreateAppbarTitle, CategoryInfomationList } from '@/libs/CategoryInfomation';
 
-export default function TresureMenu() {
+type TresureMenuProps = {
+  path: string
+};
+
+export default function TresureMenu(props: TresureMenuProps) {
   const [sideMenuIsOpen, setSideMenuIsOpen] = useState(false);
   return (
     <>
@@ -30,6 +34,7 @@ export default function TresureMenu() {
           <IconButton edge="start" color="inherit" aria-label="menu" onClick={() => setSideMenuIsOpen(true)}>
             <MenuIcon />
           </IconButton>
+          <Typography>{CreateAppbarTitle(props.path)}</Typography>
         </Toolbar>
       </AppBar>
       <Divider sx={{ maxWidth: 300 }} />
@@ -47,7 +52,7 @@ export default function TresureMenu() {
         </IconButton>
         <Divider />
         <List>
-          {MenuItemList.map(parent => <>
+          {CategoryInfomationList.map(parent => <>
             <ListItem button={true} component={Link} key={parent.info.name} href={parent.info.link!}><Typography>{parent.info.name}</Typography></ListItem>
             {parent.content.map(item => <>
               <ListItem button component={Link} key={item.title} href={item.link} sx={{ maxWidth: 300 }}>
@@ -60,15 +65,6 @@ export default function TresureMenu() {
           </>)}
         </List >
       </Drawer >
-
-
-      {/* <>
-          <List>
-            <ListItem onClick={() => setIsOpen(!isOpen)}>
-              <ArrowForwardIos />
-            </ListItem>
-          </List>
-        </> */}
     </>
   )
 }

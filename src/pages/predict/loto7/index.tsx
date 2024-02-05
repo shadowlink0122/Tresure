@@ -1,3 +1,4 @@
+import TresureHeader from "@/component/TresureHeader";
 import TresureMenu from "@/component/TresureMenu";
 import PredictTable from "@/component/predirct/loto7/index/PredictTable";
 import SelectPredict from "@/component/predirct/loto7/index/SelectPredict";
@@ -15,9 +16,11 @@ import {
   ListItem,
   Stack
 } from "@mui/material";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 export default function Predict() {
+  const router = useRouter();
   // リクエスト用のパラメータ
   const [quantity, setQuantity] = useState('1');
   const [necessaryNumbers, setNecessaryNumbers] = useState<PredictNecessaryNumber>([]);
@@ -60,8 +63,12 @@ export default function Predict() {
   }
   return (
     <>
-      <TresureMenu />
-
+      <TresureMenu
+        path={router.asPath}
+      />
+      <TresureHeader
+        path={router.asPath}
+      />
       <List>
         <ListItem>
           <Stack direction='row' spacing={1}>

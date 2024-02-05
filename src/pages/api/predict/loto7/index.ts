@@ -15,8 +15,32 @@ import { getAllNumberAppearence } from "@/libs/search/loto7/all_number_appearenc
 import { getAppearance } from "@/libs/search/appearance";
 import { hasSameNumber } from "@/libs/predict/loto7/has_same_number";
 import { savePredictSync } from "@/libs/predict/loto7/access_saved_predicts_file";
+
 /**
- * ロト７の予想を取得するAPI
+ * 次回のロト7の回を取得するAPI
+ * --- リクエスト ---
+ * method: GET
+ * 
+ * --- レスポンス ---
+ * status code:
+ *  - 200: success
+ *  - 400: bad request
+ *  - 500: internal server error
+ * content-type:
+ *  - application/json
+ * body:
+ *  - status: 'OK' | 'NG'
+ *  - error_message: string | null
+ *  - result:
+ *      {
+ *        next: number
+ *      }
+ */
+
+
+
+/**
+ * 次回のロト7の予想するAPI
  * 予想と、それに関連するデータを返す
  * 
  * --- リクエスト ---
