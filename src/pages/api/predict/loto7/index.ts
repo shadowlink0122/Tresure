@@ -1,5 +1,5 @@
 import { getSavedLoto7DataSync } from "@/db/file";
-import { PredictPostRequst } from "@/interface/api/predict/loto7";
+import { PredictGetRequest, PredictGetResponse, PredictPostRequst } from "@/interface/api/predict/loto7";
 import { PredictPostResponse } from "@/interface/api/predict/loto7";
 import {
   PredictHasSameNumbersParams,
@@ -24,7 +24,6 @@ import { savePredictSync } from "@/libs/predict/loto7/access_saved_predicts_file
  * --- レスポンス ---
  * status code:
  *  - 200: success
- *  - 400: bad request
  *  - 500: internal server error
  * content-type:
  *  - application/json
@@ -37,6 +36,28 @@ import { savePredictSync } from "@/libs/predict/loto7/access_saved_predicts_file
  *      }
  */
 
+function GetPredictNumber(
+  _: PredictGetRequest,
+  res: NextApiResponse<PredictGetResponse>
+) {
+  // 過去のデータを取得する
+  const loto7Data = getSavedLoto7DataSync();
+  if (loto7Data === null) {
+    // ファイルが取得できなければエラー
+    res.status(500).json({
+      status: 'NG',
+      error_message: 'Internal Server Error: Can\'t read loto7 file.',
+    });
+    return;
+  }
+  res.status(200).json({
+    status: 'OK',
+    error_message: null,
+    result: {
+      next: loto7Data.length + 1
+    }
+  });
+}
 
 
 /**
@@ -300,9 +321,12 @@ function PostPredictNumber(
 
 export default function handler(
   req: PredictPostRequst,
-  res: NextApiResponse<PredictPostResponse>
+  res: NextApiResponse<PredictGetResponse | PredictPostResponse>
 ) {
   switch (req.method) {
+    case 'GET':
+      GetPredictNumber(req, res);
+      break;
     case 'POST':
       // POSTリクエストを通す
       PostPredictNumber(req, res);

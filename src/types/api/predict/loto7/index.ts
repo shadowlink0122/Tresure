@@ -17,6 +17,13 @@ export const PredictDispersionParamsValidator = z.object({
 }).optional();
 export type PredictDispersionParams = z.infer<typeof PredictDispersionParamsValidator>;
 
+// --- GET ---
+export const PredictGetResponseParamsValidator = z.object({
+  next: PositiveIntNumberValidator
+});
+export type PredictGetResponseParams = z.infer<typeof PredictGetResponseParamsValidator>;
+
+// --- POST ---
 export const PredictPostRequestParamsValidator = z.object({
   quantity: PredictQuantityValidator,
   necessary: PredictNecessaryNumberValidator,

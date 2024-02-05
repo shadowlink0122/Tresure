@@ -2,7 +2,8 @@ import TresureHeader from "@/component/TresureHeader";
 import TresureMenu from "@/component/TresureMenu";
 import PredictTable from "@/component/predirct/loto7/index/PredictTable";
 import SelectPredict from "@/component/predirct/loto7/index/SelectPredict";
-import { execPredictPostRequest } from "@/libs/api_client/predict/loto7";
+import { GetDescription } from "@/libs/CategoryInfomation";
+import { execPredictGetRequest, execPredictPostRequest } from "@/libs/api_client/predict/loto7";
 import {
   PredictDispersionParams,
   PredictExcludeNumber,
@@ -17,7 +18,7 @@ import {
   Stack
 } from "@mui/material";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Predict() {
   const router = useRouter();
@@ -29,9 +30,27 @@ export default function Predict() {
   const [terms, setTerms] = useState('');
   const [reverse, setReverse] = useState(false);
   // レスポンス用のパラメータ
+  const [nextImplementNumber, setNextImplementNumber] = useState<number>(0);
   const [predictResult, setPredictResult] = useState<PredictPostResponseParams>([]);
 
-  const handlePredictRequest = async () => {
+  const handlePredictGetRequest = async () => {
+    try {
+      const response = await execPredictGetRequest();
+      if (response.status !== 'OK') {
+        console.log('error: ', response.error_message);
+        throw new Error(response.error_message!);
+      }
+      if (response.result !== undefined) {
+        setNextImplementNumber(response.result?.next);
+      } else {
+        throw new Error('パラメータが不正です')
+      }
+    } catch (e) {
+      throw e;
+    }
+  };
+
+  const handlePredictPostRequest = async () => {
     // リクエストの準備
     const disp: PredictDispersionParams = (dispersion === undefined) ? undefined :
       {
@@ -61,13 +80,20 @@ export default function Predict() {
       throw e;
     }
   }
+
+  useEffect(() => {
+    const getNextImplementNumber = async () => {
+      await handlePredictGetRequest();
+    }
+    getNextImplementNumber();
+  });
   return (
     <>
       <TresureMenu
         path={router.asPath}
       />
       <TresureHeader
-        path={router.asPath}
+        message={GetDescription(router.asPath).replace('${nextImplementNumber}', `${nextImplementNumber}`)}
       />
       <List>
         <ListItem>
@@ -85,7 +111,7 @@ export default function Predict() {
               setTerms={setTerms}
               reverse={reverse}
               setReverse={setReverse}
-              handlePredictRequest={handlePredictRequest}
+              handlePredictRequest={handlePredictPostRequest}
             >
             </SelectPredict>
           </Stack>
