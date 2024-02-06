@@ -1,5 +1,5 @@
-import { LOTO7 } from "@/types/loto7";
-import React from "react";
+import { LOTO7 } from '@/types/loto7';
+import React from 'react';
 import {
   Paper,
   TableContainer,
@@ -11,13 +11,13 @@ import {
   FormControl,
   Accordion,
   AccordionSummary,
-  Typography
-} from "@mui/material";
+  Typography,
+} from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 type HistoryTableDataProps = {
-  title: string,
-  loto7: LOTO7[]
+  title: string;
+  loto7: LOTO7[];
 };
 
 export default function HistoryTable(props: HistoryTableDataProps) {
@@ -28,9 +28,7 @@ export default function HistoryTable(props: HistoryTableDataProps) {
         aria-controls="panel1a-content"
         id="panel1a-header"
       >
-        <Typography>
-          {props.title}
-        </Typography>
+        <Typography>{props.title}</Typography>
       </AccordionSummary>
       <FormControl fullWidth>
         <TableContainer component={Paper} sx={{ maxHeight: 300 }}>
@@ -58,9 +56,7 @@ export default function HistoryTable(props: HistoryTableDataProps) {
                   <TableCell align="right">
                     {item.bonusNumber.join(' ')}
                   </TableCell>
-                  <TableCell align="right">
-                    {item.date}
-                  </TableCell>
+                  <TableCell align="right">{item.date}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

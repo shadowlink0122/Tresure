@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -24,35 +20,18 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./src/*",
-        "./crawler/*"
-      ],
-      "@test/*": [
-        "./__test__/*"
-      ],
+      "@/*": ["./src/*", "./crawler/*"],
+      "@test/*": ["./__test__/*"]
     },
-    "typeRoots": [
-      "node_modules/@types",
-      "src/@types"
-    ]
+    "typeRoots": ["node_modules/@types", "src/@types"]
   },
   "ts-node": {
     "compilerOptions": {
-      "module": "ES2020",
+      "module": "ES2020"
     },
     "esm": true,
-    "require": [
-      "tsconfig-paths/register"
-    ]
+    "require": ["tsconfig-paths/register"]
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
 }
