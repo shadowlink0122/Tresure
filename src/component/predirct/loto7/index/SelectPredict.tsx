@@ -9,8 +9,8 @@ import {
   Radio,
   RadioGroup,
   TextField,
-  Typography
-} from "@mui/material";
+  Typography,
+} from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
   MaxExcludeNumberLength,
@@ -18,26 +18,26 @@ import {
   PredictExcludeNumber,
   PredictNecessaryNumber,
   PredictPostResponseParams,
-  PredictQuantityValidator
-} from "@/types/api/predict/loto7";
-import { useState } from "react";
-import SimpleButton from "@/component/SimpleButton";
-import SelectLoto7Numbers from "./SelectLoto7Numbers";
+  PredictQuantityValidator,
+} from '@/types/api/predict/loto7';
+import { useState } from 'react';
+import SimpleButton from '@/component/SimpleButton';
+import SelectLoto7Numbers from '../../../search/loto7/SelectLoto7Numbers';
 
 type PredictProps = {
-  quantity: string,
-  setQuantity: (quantity: string) => void,
-  necessary: PredictNecessaryNumber,
-  setNecessary: (necessary: PredictNecessaryNumber) => void,
-  exclude: PredictExcludeNumber,
-  setExclude: (exclude: PredictExcludeNumber) => void,
-  dispersion: PredictDispersionParams,
-  setDispersion: (dispersion: PredictDispersionParams) => void,
-  terms: string,
-  setTerms: (terms: string) => void,
-  reverse: boolean,
-  setReverse: (reverse: boolean) => void,
-  handlePredictRequest: () => Promise<void>
+  quantity: string;
+  setQuantity: (quantity: string) => void;
+  necessary: PredictNecessaryNumber;
+  setNecessary: (necessary: PredictNecessaryNumber) => void;
+  exclude: PredictExcludeNumber;
+  setExclude: (exclude: PredictExcludeNumber) => void;
+  dispersion: PredictDispersionParams;
+  setDispersion: (dispersion: PredictDispersionParams) => void;
+  terms: string;
+  setTerms: (terms: string) => void;
+  reverse: boolean;
+  setReverse: (reverse: boolean) => void;
+  handlePredictRequest: () => Promise<void>;
 };
 
 export default function SelectPredict(props: PredictProps) {
@@ -60,7 +60,9 @@ export default function SelectPredict(props: PredictProps) {
   };
   const checkExcludeLength = () => {
     setExcludeNumbersError(
-      props.exclude.length > MaxExcludeNumberLength ? '除外する数は20個までです' : ''
+      props.exclude.length > MaxExcludeNumberLength
+        ? '除外する数は20個までです'
+        : '',
     );
   };
 
@@ -68,7 +70,7 @@ export default function SelectPredict(props: PredictProps) {
     <Accordion
       expanded={expand}
       onChange={() => {
-        setExpand(!expand)
+        setExpand(!expand);
       }}
     >
       <AccordionSummary
@@ -76,21 +78,19 @@ export default function SelectPredict(props: PredictProps) {
         aria-controls="panel1a-content"
         id="panel1a-header"
       >
-        <Typography>
-          {"抽選条件の設定"}
-        </Typography>
+        <Typography>{'抽選条件の設定'}</Typography>
       </AccordionSummary>
       <List>
         <ListItem>
           {/* 抽選回数 */}
-          <Typography sx={{ minWidth: MIN_DIWTH }}>
-            抽選回数
-          </Typography>
+          <Typography sx={{ minWidth: MIN_DIWTH }}>抽選回数</Typography>
           <TextField
             helperText={quantityError}
             value={props.quantity}
             onChange={(e) => {
-              const validate = PredictQuantityValidator.safeParse(Number(e.target.value));
+              const validate = PredictQuantityValidator.safeParse(
+                Number(e.target.value),
+              );
               if (!validate.success) {
                 setQuantityError('1以上の整数で入力してください');
               } else {
@@ -126,13 +126,11 @@ export default function SelectPredict(props: PredictProps) {
           />
         </ListItem>
         <ListItem>
-          <Typography sx={{ minWidth: MIN_DIWTH }}>
-            抽選方式を選ぶ
-          </Typography>
+          <Typography sx={{ minWidth: MIN_DIWTH }}>抽選方式を選ぶ</Typography>
           <FormControl>
             <FormLabel>抽選方式</FormLabel>
             <RadioGroup
-              value={(props.dispersion === undefined) ? "random" : "dispersion"}
+              value={props.dispersion === undefined ? 'random' : 'dispersion'}
               onChange={(e) => {
                 switch (e.target.value) {
                   case 'random':
@@ -148,77 +146,86 @@ export default function SelectPredict(props: PredictProps) {
             >
               <FormControlLabel
                 label="ランダム"
-                value={"random"} control={<Radio />}
+                value={'random'}
+                control={<Radio />}
               />
               <FormControlLabel
                 label="重み付け"
-                value={"dispersion"} control={<Radio />}
+                value={'dispersion'}
+                control={<Radio />}
               />
             </RadioGroup>
           </FormControl>
         </ListItem>
         {/* 重み付けの設定 */}
-        {
-          (props.dispersion === undefined) ?
-            <></> :
-            <>
-              <ListItem>
-                <Typography sx={{ minWidth: MIN_DIWTH }}>
-                  直近のデータ数
-                </Typography>
-                <TextField
-                  helperText={termsError}
-                  value={props.terms}
-                  onChange={(e) => {
-                    props.setTerms(e.target.value);
-                    const validate = PredictQuantityValidator.safeParse(Number(e.target.value));
-                    if (!validate.success && e.target.value !== '') {
-                      // 空文字はundefinedとして許容する
-                      setTermsError('1以上の整数で入力してください');
-                    } else {
-                      setTermsError('');
-                    }
+        {props.dispersion === undefined ? (
+          <></>
+        ) : (
+          <>
+            <ListItem>
+              <Typography sx={{ minWidth: MIN_DIWTH }}>
+                直近のデータ数
+              </Typography>
+              <TextField
+                helperText={termsError}
+                value={props.terms}
+                onChange={(e) => {
+                  props.setTerms(e.target.value);
+                  const validate = PredictQuantityValidator.safeParse(
+                    Number(e.target.value),
+                  );
+                  if (!validate.success && e.target.value !== '') {
+                    // 空文字はundefinedとして許容する
+                    setTermsError('1以上の整数で入力してください');
+                  } else {
+                    setTermsError('');
+                  }
+                }}
+              />
+            </ListItem>
+            <ListItem>
+              <Typography sx={{ minWidth: MIN_DIWTH }}>重みの優先度</Typography>
+              <FormControl>
+                <FormLabel>使用する重み</FormLabel>
+                <RadioGroup
+                  value={props.reverse}
+                  onChange={() => {
+                    // true, false を入れ替える
+                    props.setReverse(!props.reverse);
                   }}
-                />
-              </ListItem>
-              <ListItem>
-                <Typography sx={{ minWidth: MIN_DIWTH }}>
-                  重みの優先度
-                </Typography>
-                <FormControl>
-                  <FormLabel>使用する重み</FormLabel>
-                  <RadioGroup
-                    value={props.reverse}
-                    onChange={() => {
-                      // true, false を入れ替える
-                      props.setReverse(!props.reverse);
-                    }}
-                  >
-                    <FormControlLabel
-                      label="出た回数が多い順"
-                      value={false} control={<Radio />}
-                    />
-                    <FormControlLabel
-                      label="出た回数が少ない順"
-                      value={true} control={<Radio />}
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </ListItem>
-            </>
-        }
+                >
+                  <FormControlLabel
+                    label="出た回数が多い順"
+                    value={false}
+                    control={<Radio />}
+                  />
+                  <FormControlLabel
+                    label="出た回数が少ない順"
+                    value={true}
+                    control={<Radio />}
+                  />
+                </RadioGroup>
+              </FormControl>
+            </ListItem>
+          </>
+        )}
         <ListItem>
           <SimpleButton
             title="抽選"
             color="info"
-            disabled={quantityError !== '' || necessaryNumbersError !== '' || excludeNumbersError !== '' || termsError !== ''}
+            disabled={
+              quantityError !== '' ||
+              necessaryNumbersError !== '' ||
+              excludeNumbersError !== '' ||
+              termsError !== ''
+            }
             onClick={async () => {
               await props.handlePredictRequest();
-              setExpand(false)
+              setExpand(false);
             }}
           />
         </ListItem>
       </List>
-    </Accordion >
-  )
+    </Accordion>
+  );
 }

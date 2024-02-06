@@ -9,21 +9,25 @@ export const SearchAllNumberAppearenceRequestParamsValidator = z.object({
   terms: PositiveIntNumberValidator.min(1),
 });
 
-export type SearchAllNumberAppearenceRequestParams =
-  z.infer<typeof SearchAllNumberAppearenceRequestParamsValidator>;
+export type SearchAllNumberAppearenceRequestParams = z.infer<
+  typeof SearchAllNumberAppearenceRequestParamsValidator
+>;
 
 // レスポンス
-export const AllNumberAppearenceStatusValidator = z.enum([
-  "most", "many", "few", "less"
-]).optional();
-export type AllNumberAppearenceStatus = z.infer<typeof AllNumberAppearenceStatusValidator>;
+export const AllNumberAppearenceStatusValidator = z
+  .enum(['most', 'many', 'few', 'less'])
+  .optional();
+export type AllNumberAppearenceStatus = z.infer<
+  typeof AllNumberAppearenceStatusValidator
+>;
 export const NumberCountParamsValidator = z.object({
   number: PositiveIntNumberValidator.max(MAX_LOTO7_NUMBER),
   count: PositiveIntNumberValidator,
-  volume: AllNumberAppearenceStatusValidator.optional()
+  volume: AllNumberAppearenceStatusValidator.optional(),
 });
 export type NumberCountParams = z.infer<typeof NumberCountParamsValidator>;
 export const SearchAllNumberAppearenceResponseParamsValidator =
   NumberCountParamsValidator.array();
-export type SearchAllNumberAppearenceResponseParams =
-  z.infer<typeof SearchAllNumberAppearenceResponseParamsValidator>;
+export type SearchAllNumberAppearenceResponseParams = z.infer<
+  typeof SearchAllNumberAppearenceResponseParamsValidator
+>;

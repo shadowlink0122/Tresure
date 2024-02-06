@@ -1,21 +1,24 @@
 import z from 'zod';
-import { NonNegativeIntNumberValidator, PositiveIntNumberValidator } from './common';
+import {
+  NonNegativeIntNumberValidator,
+  PositiveIntNumberValidator,
+} from './common';
 
 // Numbers
 const NUMBERSNumber = NonNegativeIntNumberValidator.min(0).max(9);
 const NUMBERS4Validator = NUMBERSNumber.array().length(4);
 type NUMBERS4 = z.infer<typeof NUMBERS4Validator>;
 
-export type {
-  NUMBERS4
-}
+export type { NUMBERS4 };
 
 // loto
 
 export const MAX_MINILOTO_NUMBER = 31;
 export const MAX_LOTO6_NUMBER = 43;
-export const MiniLotoNumberValidator = PositiveIntNumberValidator.min(1).max(MAX_MINILOTO_NUMBER);
-export const Loto6NumberValidator = PositiveIntNumberValidator.min(1).max(MAX_LOTO6_NUMBER);
+export const MiniLotoNumberValidator =
+  PositiveIntNumberValidator.min(1).max(MAX_MINILOTO_NUMBER);
+export const Loto6NumberValidator =
+  PositiveIntNumberValidator.min(1).max(MAX_LOTO6_NUMBER);
 
 export type MiniLOTO = z.infer<typeof MINILOTOValidator>;
 export type LOTO6 = z.infer<typeof LOTO6Validator>;

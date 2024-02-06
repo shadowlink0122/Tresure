@@ -7,10 +7,10 @@ import type { Config } from 'jest';
 
 const config: Config = {
   collectCoverage: true,
-  coverageDirectory: "coverage",
-  coverageProvider: "v8",
-  transformIgnorePatterns: ["/node_modules/"],
-  preset: "ts-jest",
+  coverageDirectory: 'coverage',
+  coverageProvider: 'v8',
+  transformIgnorePatterns: ['/node_modules/'],
+  preset: 'ts-jest',
   globals: {
     'ts-jest': {
       useESM: true,

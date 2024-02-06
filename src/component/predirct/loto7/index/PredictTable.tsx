@@ -1,4 +1,4 @@
-import { PredictPostResponseParams, PredictResultParams } from "@/types/api/predict/loto7";
+import { PredictElementParams } from '@/types/api/predict/loto7';
 import {
   Accordion,
   AccordionSummary,
@@ -9,22 +9,23 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Typography
-} from "@mui/material";
+  Typography,
+} from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { getColorByFrequence } from "./AllNumberTable";
-import { useState } from "react";
+import { getColorByFrequence } from '../../../search/loto7/AllNumberTable';
+import { useState } from 'react';
 
-type PredictResultTableProps = {
-  titile: string,
-  predict: PredictResultParams,
+type PredictTableProps = {
+  titile: string;
+  predict: PredictElementParams;
 };
 
-export default function PredictResultTable(props: PredictResultTableProps) {
+export default function PredictTable(props: PredictTableProps) {
   const [isExpand, setIsExpand] = useState(false);
 
   return (
-    <Accordion sx={{ minWidth: 800 }}
+    <Accordion
+      sx={{ minWidth: 800 }}
       expanded={isExpand}
       onChange={() => setIsExpand(!isExpand)}
     >
@@ -35,11 +36,19 @@ export default function PredictResultTable(props: PredictResultTableProps) {
       >
         <Typography>
           {props.titile}
-          {isExpand ? '' : props.predict.result.map(item => (
-            <>
-              <TableCell sx={{ backgroundColor: getColorByFrequence(item.frequency) }}>{item.number}</TableCell>
-            </>
-          ))}
+          {isExpand
+            ? ''
+            : props.predict.result.map((item) => (
+                <>
+                  <TableCell
+                    sx={{
+                      backgroundColor: getColorByFrequence(item.frequency),
+                    }}
+                  >
+                    {item.number}
+                  </TableCell>
+                </>
+              ))}
         </Typography>
       </AccordionSummary>
       {/* 各データの情報 */}
@@ -54,14 +63,16 @@ export default function PredictResultTable(props: PredictResultTableProps) {
                 <TableCell align="right">日付</TableCell>
               </TableRow>
             </TableHead>
-            {props.predict.result.map(item => (
+            {props.predict.result.map((item) => (
               <>
                 <TableBody>
-                  <TableCell sx={{
-                    height: 30,
-                    width: 30,
-                    backgroundColor: getColorByFrequence(item.frequency)
-                  }}>
+                  <TableCell
+                    sx={{
+                      height: 30,
+                      width: 30,
+                      backgroundColor: getColorByFrequence(item.frequency),
+                    }}
+                  >
                     {item.number}
                   </TableCell>
                   <TableCell align="right">{item.amount}</TableCell>
@@ -74,7 +85,7 @@ export default function PredictResultTable(props: PredictResultTableProps) {
         </ListItem>
       </List>
       {/* 抽選結果の類似番号 */}
-      <Accordion sx={{ backgroundColor: "#E1F5FE" }}>
+      <Accordion sx={{ backgroundColor: '#E1F5FE' }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -94,21 +105,23 @@ export default function PredictResultTable(props: PredictResultTableProps) {
                   <TableCell>番号</TableCell>
                 </TableRow>
               </TableHead>
-              {props.predict.similar_pick.has_same_number.map(item => (
+              {props.predict.similar_pick.has_same_number.map((item) => (
                 <>
                   <TableBody>
                     <TableRow>
                       <TableCell align="right">{item.id}</TableCell>
                       <TableCell align="right">{item.date}</TableCell>
-                      {item.numbers.map(i => (
+                      {item.numbers.map((i) => (
                         <>
                           <TableCell
                             sx={{
-                              backgroundColor: (
+                              backgroundColor:
                                 // 抽選した数とかぶっていればハイライトする
-                                props.predict.result.map(item => item.number).indexOf(i) > -1 ?
-                                  "#BDBDBD" : ""
-                              )
+                                props.predict.result
+                                  .map((item) => item.number)
+                                  .indexOf(i) > -1
+                                  ? '#BDBDBD'
+                                  : '',
                             }}
                           >
                             {i}
@@ -124,5 +137,5 @@ export default function PredictResultTable(props: PredictResultTableProps) {
         </List>
       </Accordion>
     </Accordion>
-  )
+  );
 }

@@ -1,24 +1,78 @@
-import { getSavedLoto7DataSync } from "@/db/file";
-import { PredictPostRequst } from "@/interface/api/predict/loto7";
-import { PredictPostResponse } from "@/interface/api/predict/loto7";
-import { PredictHasSameNumbersParams, PredictPickMethod, PredictPostRequestParams, PredictPostRequestParamsValidator, PredictPostResponseParamsValidator, PredictResultParams, PredictSimilarPickParams } from "@/types/api/predict/loto7";
-import { MAX_LOTO7_NUMBER } from "@/types/loto7";
-import { NextApiResponse } from "next";
-import { NumberDispersion, predict } from "@/libs/predict/loto7";
-import { getAllNumberAppearence } from "@/libs/search/loto7/all_number_appearence";
-import { getAppearance } from "@/libs/search/appearance";
-import { hasSameNumber } from "@/libs/predict/loto7/has_same_number";
-import { savePredictSync } from "@/libs/predict/loto7/access_saved_predicts_file";
+import { getSavedLoto7DataSync } from '@/db/file';
+import {
+  PredictGetRequest,
+  PredictGetResponse,
+  PredictPostRequst,
+} from '@/interface/api/predict/loto7';
+import { PredictPostResponse } from '@/interface/api/predict/loto7';
+import {
+  PredictHasSameNumbersParams,
+  PredictPickMethod,
+  PredictPostRequestParamsValidator,
+  PredictPostResponseParamsValidator,
+  PredictElementParams,
+} from '@/types/api/predict/loto7';
+import { MAX_LOTO7_NUMBER } from '@/types/loto7';
+import { NextApiResponse } from 'next';
+import { NumberDispersion, predict } from '@/libs/predict/loto7';
+import { getAllNumberAppearence } from '@/libs/search/loto7/all_number_appearence';
+import { getAppearance } from '@/libs/search/appearance';
+import { hasSameNumber } from '@/libs/predict/loto7/has_same_number';
+import { savePredictSync } from '@/libs/predict/loto7/access_saved_predicts_file';
+
 /**
- * ロト７の予想を取得するAPI
+ * 次回のロト7の回を取得するAPI
+ * --- リクエスト ---
+ * method: GET
+ *
+ * --- レスポンス ---
+ * status code:
+ *  - 200: success
+ *  - 500: internal server error
+ * content-type:
+ *  - application/json
+ * body:
+ *  - status: 'OK' | 'NG'
+ *  - error_message: string | null
+ *  - result:
+ *      {
+ *        next: number
+ *      }
+ */
+
+function GetPredictNumber(
+  _: PredictGetRequest,
+  res: NextApiResponse<PredictGetResponse>,
+) {
+  // 過去のデータを取得する
+  const loto7Data = getSavedLoto7DataSync();
+  if (loto7Data === null) {
+    // ファイルが取得できなければエラー
+    res.status(500).json({
+      status: 'NG',
+      error_message: "Internal Server Error: Can't read loto7 file.",
+    });
+    return;
+  }
+  res.status(200).json({
+    status: 'OK',
+    error_message: null,
+    result: {
+      next: loto7Data.length + 1,
+    },
+  });
+}
+
+/**
+ * 次回のロト7の予想するAPI
  * 予想と、それに関連するデータを返す
- * 
+ *
  * --- リクエスト ---
  * パラメータに以下を含める
  *  - 実行する回数
  *  - 抽選に必要な数
  *  - 抽選基準を設ける
- * 
+ *
  * method: POST
  * params:
  *  - quantity: number
@@ -39,7 +93,7 @@ import { savePredictSync } from "@/libs/predict/loto7/access_saved_predicts_file
  *      - true: 分布の重みを逆順にする (出てない数字の重みを高くする)
  *      - false | undefined: 分布通りの重みにする
  *    - undefined: 完全ランダムで抽選を行う (すべての重みが1)
- * 
+ *
  * --- レスポンス --
  * 以下のデータを返す
  *  - N回分の実行結果
@@ -56,7 +110,7 @@ import { savePredictSync } from "@/libs/predict/loto7/access_saved_predicts_file
  *        - id
  *        - 日付
  *        - 結果
- * 
+ *
  * status code:
  *  - 200: success
  *  - 400: bad request
@@ -97,16 +151,17 @@ import { savePredictSync } from "@/libs/predict/loto7/access_saved_predicts_file
 
 function PostPredictNumber(
   req: PredictPostRequst,
-  res: NextApiResponse<PredictPostResponse>
+  res: NextApiResponse<PredictPostResponse>,
 ) {
   const requestBody = req.body;
   // リクエストボディのバリデーション
-  const validateRequest = PredictPostRequestParamsValidator.safeParse(requestBody);
+  const validateRequest =
+    PredictPostRequestParamsValidator.safeParse(requestBody);
   if (!validateRequest.success) {
     res.status(400).json({
       status: 'NG',
       error_message: validateRequest.error.message,
-      result: []
+      result: [],
     });
     return;
   }
@@ -116,28 +171,30 @@ function PostPredictNumber(
   const necessaryNumbers: NumberDispersion[] = necessary.map((item) => {
     return {
       number: item,
-      weight: 1
+      weight: 1,
     } as NumberDispersion;
   });
   // 1 ~ 37の数字をあらかじめランダム抽選の候補に入れておく
   // 必要な数字が7個以上あれば空にする
   let randomChoosedNumbers: NumberDispersion[] =
-    (necessaryNumbers.length >= 7) ?
-      [] :
-      [...Array(MAX_LOTO7_NUMBER)].map((_, i) => {
-        return {
-          number: i + 1,
-          weight: 1
-        } as NumberDispersion;
-      });
+    necessaryNumbers.length >= 7
+      ? []
+      : [...Array(MAX_LOTO7_NUMBER)].map((_, i) => {
+          return {
+            number: i + 1,
+            weight: 1,
+          } as NumberDispersion;
+        });
 
   // 必要数が7未満の時、必要数/除外数以外の数字が選ばれるようにする
   // それ以外の時は必要数から選ばれるので、この分岐に入らない
   if (necessary.length < 7) {
     // ランダムに選ばれない数字
     const excludeRandomChoose: number[] = [...necessary, ...exclude];
-    excludeRandomChoose.map(item => {
-      randomChoosedNumbers = randomChoosedNumbers.filter(i => i.number !== item);
+    excludeRandomChoose.map((item) => {
+      randomChoosedNumbers = randomChoosedNumbers.filter(
+        (i) => i.number !== item,
+      );
     });
   }
   // --- 抽選の重みを設定する ---
@@ -147,15 +204,15 @@ function PostPredictNumber(
     // ファイルが取得できなければエラー
     res.status(500).json({
       status: 'NG',
-      error_message: 'Internal Server Error: Can\'t read loto7 file.',
-      result: []
+      error_message: "Internal Server Error: Can't read loto7 file.",
+      result: [],
     });
     return;
   }
   let useLoto7Data = loto7Data!.reverse();
   // undefinedの場合はランダム(すべての重みが1)
   let terms = undefined;
-  let reverse = undefined
+  let reverse = undefined;
   let pickMethod: PredictPickMethod = 'random';
   // 重みあり抽選
   if (dispersion !== undefined) {
@@ -169,34 +226,32 @@ function PostPredictNumber(
 
     // 重みに使用するデータを区切る
     // termsが範囲外の場合はデータ数に合わせる
-    useLoto7Data = useLoto7Data.slice(
-      0,
-      Math.min(
-        useLoto7Data.length,
-        terms
-      )
-    );
+    useLoto7Data = useLoto7Data.slice(0, Math.min(useLoto7Data.length, terms));
     // --- update weight ---
     const allNumberAppearence = getAllNumberAppearence(useLoto7Data, true);
-    allNumberAppearence.map(appear => {
-      necessaryNumbers.map(nec => {
-        if (nec.number === appear.number) nec.weight += appear.count
+    allNumberAppearence.map((appear) => {
+      necessaryNumbers.map((nec) => {
+        if (nec.number === appear.number) nec.weight += appear.count;
       });
-      randomChoosedNumbers.map(rand => {
+      randomChoosedNumbers.map((rand) => {
         if (rand.number === appear.number) rand.weight += appear.count;
       });
     });
   }
   //  --- ${quantity} 回抽選する ---
-  const result: PredictResultParams[] = [];
+  let result: PredictElementParams[] = [];
   for (let i = 0; i < quantity; i += 1) {
-    const res: PredictResultParams = {
+    const res: PredictElementParams = {
       result: [],
       pick_method: pickMethod,
-      similar_pick: Object({}) // 抽選後に設定
+      similar_pick: Object({}), // 抽選後に設定
     };
     // --- 1回抽選する ---
-    const predictNumbers = predict(necessaryNumbers, randomChoosedNumbers, reverse!);
+    const predictNumbers = predict(
+      necessaryNumbers,
+      randomChoosedNumbers,
+      reverse!,
+    );
     for (const predictNum of predictNumbers) {
       // ${terms}期間中の出現頻度
       const frequency = getAllNumberAppearence(useLoto7Data, true);
@@ -205,28 +260,33 @@ function PostPredictNumber(
       // 各数字のデータを返す
       res.result.push({
         number: predictNum.number,
-        amount: frequency.filter(item => item.number === predictNum.number)[0].count,
-        frequency: frequency.filter(item => item.number === predictNum.number)[0].volume,
+        amount: frequency.filter((item) => item.number === predictNum.number)[0]
+          .count,
+        frequency: frequency.filter(
+          (item) => item.number === predictNum.number,
+        )[0].volume,
         last_picked: {
           id: lastPicked.implemention,
-          date: lastPicked.date
-        }
+          date: lastPicked.date,
+        },
       });
     }
     const similarPick = hasSameNumber(
-      predictNumbers.map(item => item.number), loto7Data);
+      predictNumbers.map((item) => item.number),
+      loto7Data,
+    );
     for (let i = predictNumbers.length; i >= 0; i--) {
       // 被りが大きい順で見る
       if (similarPick[i] !== undefined) {
         res.similar_pick = {
           count_same_number: i,
-          has_same_number: similarPick[i].map(item => {
+          has_same_number: similarPick[i].map((item) => {
             return {
               date: item.date,
               id: item.id,
-              numbers: item.numbers
-            } as PredictHasSameNumbersParams
-          })
+              numbers: item.numbers,
+            } as PredictHasSameNumbersParams;
+          }),
         };
         break;
       }
@@ -241,7 +301,7 @@ function PostPredictNumber(
     res.status(400).json({
       status: 'NG',
       error_message: validateResponse.error.message,
-      result: []
+      result: [],
     });
     return;
   }
@@ -252,27 +312,30 @@ function PostPredictNumber(
     res.status(400).json({
       status: 'NG',
       error_message: `Internal Server Error: 抽選結果を保存できませんでした`,
-      result: []
+      result: [],
     });
     return;
   }
   // 100件より多ければデータを返さない
-  if (quantity > 100) result.splice(0, result.length);
+  if (quantity > 100) result = [];
 
   // 結果を返す
   res.status(200).json({
     status: 'OK',
     error_message: null,
-    result: result
+    result: result,
   });
   return;
 }
 
 export default function handler(
   req: PredictPostRequst,
-  res: NextApiResponse<PredictPostResponse>
+  res: NextApiResponse<PredictGetResponse | PredictPostResponse>,
 ) {
   switch (req.method) {
+    case 'GET':
+      GetPredictNumber(req, res);
+      break;
     case 'POST':
       // POSTリクエストを通す
       PostPredictNumber(req, res);
@@ -282,11 +345,9 @@ export default function handler(
       res.status(400).json({
         status: 'NG',
         error_message: `Not supported method: ${req.method}.`,
-        result: []
+        result: [],
       });
       break;
   }
   return;
 }
-
-

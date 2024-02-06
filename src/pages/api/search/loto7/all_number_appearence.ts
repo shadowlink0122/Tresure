@@ -1,12 +1,18 @@
 import { getSavedLoto7DataSync } from '@/db/file';
-import { SearchAllNumberAppearenceRequest, SearchAllNumberAppearenceResponse } from '@/interface/api/search/loto7/all_number_appearence';
+import {
+  SearchAllNumberAppearenceRequest,
+  SearchAllNumberAppearenceResponse,
+} from '@/interface/api/search/loto7/all_number_appearence';
 import { NextApiResponse } from 'next';
-import { SearchAllNumberAppearenceRequestParamsValidator, SearchAllNumberAppearenceResponseParams } from '@/types/api/search/loto7/all_number_appearence';
+import {
+  SearchAllNumberAppearenceRequestParamsValidator,
+  SearchAllNumberAppearenceResponseParams,
+} from '@/types/api/search/loto7/all_number_appearence';
 import { getAllNumberAppearence } from '@/libs/search/loto7/all_number_appearence';
 
 /**
  * 指定期間で出現した数字とその回数を返します
- * 
+ *
  * -- リクエスト --
  * method: POST
  * parameters:
@@ -14,7 +20,7 @@ import { getAllNumberAppearence } from '@/libs/search/loto7/all_number_appearenc
  *    - 直近N回分のデータ: N > 0
  *  - is_main_number: boolean
  *    - 本番号かボーナス番号
- * 
+ *
  * -- レスポンス --
  * status_code:
  *  - 200: success
@@ -36,9 +42,10 @@ import { getAllNumberAppearence } from '@/libs/search/loto7/all_number_appearenc
 
 function PostSearchAllNumberAppearence(
   req: SearchAllNumberAppearenceRequest,
-  res: NextApiResponse<SearchAllNumberAppearenceResponse>
+  res: NextApiResponse<SearchAllNumberAppearenceResponse>,
 ) {
-  const requestParams = SearchAllNumberAppearenceRequestParamsValidator.safeParse(req.body);
+  const requestParams =
+    SearchAllNumberAppearenceRequestParamsValidator.safeParse(req.body);
   if (!requestParams.success) {
     // バリデーションが失敗した場合
     res.status(400).json({
@@ -55,27 +62,30 @@ function PostSearchAllNumberAppearence(
   if (loto7Result === null) {
     res.status(500).json({
       status: 'NG',
-      error_message: 'Can\'t load LOTO7 Result file.',
+      error_message: "Can't load LOTO7 Result file.",
       result: [],
     });
   }
   // データ検索
   const { is_main_number, terms } = req.body;
   const searchResult: SearchAllNumberAppearenceResponseParams =
-    getAllNumberAppearence(loto7Result!.reverse().slice(0, terms), is_main_number);
+    getAllNumberAppearence(
+      loto7Result!.reverse().slice(0, terms),
+      is_main_number,
+    );
 
   // レスポンス
   res.status(200).json({
     status: 'OK',
     error_message: null,
-    result: searchResult
+    result: searchResult,
   });
   return;
 }
 
 export default function handler(
   req: SearchAllNumberAppearenceRequest,
-  res: NextApiResponse<SearchAllNumberAppearenceResponse>
+  res: NextApiResponse<SearchAllNumberAppearenceResponse>,
 ) {
   switch (req.method) {
     case 'POST':
@@ -87,10 +97,9 @@ export default function handler(
       res.status(400).json({
         status: 'NG',
         error_message: `Not supported method: ${req.method}.`,
-        result: []
+        result: [],
       });
       break;
   }
   return;
 }
-
