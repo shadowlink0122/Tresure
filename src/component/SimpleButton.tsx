@@ -1,12 +1,19 @@
-import { Button } from "@mui/material"
+import { Button } from '@mui/material';
 
-type ButtonColor = 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning';
+type ButtonColor =
+  | 'inherit'
+  | 'primary'
+  | 'secondary'
+  | 'success'
+  | 'error'
+  | 'info'
+  | 'warning';
 
 type SimpleButtonProps = {
-  title: string,
-  color: ButtonColor,
-  disabled: boolean,
-  onClick: () => void,
+  title: string;
+  color: ButtonColor;
+  disabled: boolean;
+  onClick: () => void;
 };
 
 export default function SimpleButton(props: SimpleButtonProps) {
@@ -20,5 +27,5 @@ export default function SimpleButton(props: SimpleButtonProps) {
     >
       {props.title}
     </Button>
-  )
+  );
 }

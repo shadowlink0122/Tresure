@@ -1,15 +1,15 @@
-import { LOTO7 } from "@/types/loto7";
+import { LOTO7 } from '@/types/loto7';
 
 export type HasSameValue = {
-  id: string,
-  date: string,
-  numbers: number[],
-  sameValue: number[]
+  id: string;
+  date: string;
+  numbers: number[];
+  sameValue: number[];
 };
 
 export type HasSameValueDict = {
-  [key: number]: HasSameValue[]
-}
+  [key: number]: HasSameValue[];
+};
 
 export function checkSameValue(a: number[], b: LOTO7) {
   const result: number[] = [];
@@ -25,7 +25,7 @@ export function checkSameValue(a: number[], b: LOTO7) {
 }
 
 export function hasSameNumber(target: number[], loto7: LOTO7[]) {
-  const result: HasSameValueDict = {}
+  const result: HasSameValueDict = {};
   for (const loto of loto7) {
     const set = new Set([...target, ...loto.mainNumber]);
     const lengthDiff = target.length + loto.mainNumber.length - set.size;
@@ -34,16 +34,17 @@ export function hasSameNumber(target: number[], loto7: LOTO7[]) {
         id: loto.implemention,
         date: loto.date,
         numbers: loto.mainNumber,
-        sameValue: checkSameValue(target, loto)
+        sameValue: checkSameValue(target, loto),
       });
-    }
-    else {
-      result[lengthDiff] = [{
-        id: loto.implemention,
-        date: loto.date,
-        numbers: loto.mainNumber,
-        sameValue: checkSameValue(target, loto)
-      }]
+    } else {
+      result[lengthDiff] = [
+        {
+          id: loto.implemention,
+          date: loto.date,
+          numbers: loto.mainNumber,
+          sameValue: checkSameValue(target, loto),
+        },
+      ];
     }
   }
   return result;

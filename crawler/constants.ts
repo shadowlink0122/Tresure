@@ -1,8 +1,8 @@
-import got from "got";
-import { LOTO7 } from "@/types/loto7";
-import { MiniLOTO, LOTO6 } from "@/types/others";
+import got from 'got';
+import { LOTO7 } from '@/types/loto7';
+import { MiniLOTO, LOTO6 } from '@/types/others';
 import fs from 'fs';
-import { join } from "path";
+import { join } from 'path';
 
 // type
 export type crawlResult = MiniLOTO[] | LOTO6[] | LOTO7[];
@@ -13,9 +13,11 @@ export async function getHtmlFromURL(url: string) {
   try {
     // httpリクエスト
     console.log(`GET: ${url}`);
-    const response = await got.extend({
-      encoding: 'buffer'
-    }).get(url);
+    const response = await got
+      .extend({
+        encoding: 'buffer',
+      })
+      .get(url);
     await sleep(100);
 
     if (response.statusCode !== 200) {
@@ -47,7 +49,4 @@ export function writeToLocalFileSync(filename: string, result: crawlResult) {
 const BASE_DIR = 'result';
 const LOTO7_FILENAME = join(BASE_DIR, 'loto7.json');
 
-export {
-  BASE_DIR,
-  LOTO7_FILENAME
-}
+export { BASE_DIR, LOTO7_FILENAME };

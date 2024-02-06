@@ -1,13 +1,13 @@
-import { getSavedLoto7DataSync } from "../../db/file";
-import { Loto7DepOccurDict, Loto7Pair } from "../../types/loto7/occurrence";
+import { getSavedLoto7DataSync } from '../../db/file';
+import { Loto7DepOccurDict, Loto7Pair } from '../../types/loto7/occurrence';
 
-const resultDict: Loto7DepOccurDict = {}
+const resultDict: Loto7DepOccurDict = {};
 
 function setNumber(key: number, value: number) {
   if (resultDict[key] === undefined) {
     resultDict[key] = [{ parent: value, count: 1 }];
   } else {
-    const pair = resultDict[key].find(elm => elm.parent === value);
+    const pair = resultDict[key].find((elm) => elm.parent === value);
     // 見つかった場合、カウントを増やす
     if (pair !== undefined) {
       pair.count += 1;
@@ -44,7 +44,7 @@ function createDepOccurDict() {
       return 0;
     });
   }
-  console.log("dep:");
+  console.log('dep:');
   for (const dkey of dictKeys) {
     const key = Number(dkey);
     process.stdout.write(`${key}:`);

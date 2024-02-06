@@ -20,7 +20,7 @@ async function crawl(start: number) {
     if (htmlBuffer === null) {
       break;
     }
-    const html = iconv.decode(<Buffer><unknown>htmlBuffer, 'SHIFT_JIS');
+    const html = iconv.decode(<Buffer>(<unknown>htmlBuffer), 'SHIFT_JIS');
     // 余計な改行をコンマに置き換えて、コンマで分ける
     const splitedHtml = html.replace(/\r?\n/g, ',').split(',');
     const loto7: LOTO7 = {
@@ -28,7 +28,7 @@ async function crawl(start: number) {
       date: splitedHtml[3],
       mainNumber: splitedHtml.slice(8, 15).map(Number),
       bonusNumber: splitedHtml.slice(16, 18).map(Number),
-    }
+    };
     result.push(loto7);
     START_IMPLEMENT += 1;
   }
@@ -37,7 +37,10 @@ async function crawl(start: number) {
 
 export async function Loto7Crawler() {
   const fileContent = getSavedLoto7DataSync();
-  const startNum = (fileContent !== null && fileContent.length !== 0) ? fileContent!.length + 1 : 1;
+  const startNum =
+    fileContent !== null && fileContent.length !== 0
+      ? fileContent!.length + 1
+      : 1;
   // クローリング
   const result = await crawl(startNum);
 

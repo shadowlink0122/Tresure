@@ -1,7 +1,10 @@
-import { TresureResponseBase } from "@/types/api/tresure_response_base";
-import { error } from "console";
+import { TresureResponseBase } from '@/types/api/tresure_response_base';
+import { error } from 'console';
 
-export async function responseHandler<T extends TresureResponseBase>(response: Response, userAction: string) {
+export async function responseHandler<T extends TresureResponseBase>(
+  response: Response,
+  userAction: string,
+) {
   let result = null;
   try {
     result = (await response.json()) as T;
@@ -14,7 +17,9 @@ export async function responseHandler<T extends TresureResponseBase>(response: R
 
   // レスポンスが取得できなかった場合
   if (result === null || result === undefined) {
-    throw new Error(`Request: ${userAction} | Http response is ${response.statusText}.`);
+    throw new Error(
+      `Request: ${userAction} | Http response is ${response.statusText}.`,
+    );
   }
 
   // エラーの場合
@@ -24,9 +29,8 @@ export async function responseHandler<T extends TresureResponseBase>(response: R
       throw new Error(`Request: ${userAction} | ${result?.error_message}`);
     }
     // 無ければステータスコードを返す
-    throw new Error(`Request: ${userAction} | status: ${response.statusText}`)
+    throw new Error(`Request: ${userAction} | status: ${response.statusText}`);
   }
 
   return result;
 }
-
