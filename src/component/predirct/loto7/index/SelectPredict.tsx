@@ -70,7 +70,7 @@ export default function SelectPredict(props: PredictProps) {
     <Accordion
       expanded={expand}
       onChange={() => {
-        setExpand(!expand);
+        setExpand(true);
       }}
     >
       <AccordionSummary
@@ -221,7 +221,7 @@ export default function SelectPredict(props: PredictProps) {
             }
             onClick={async () => {
               await props.handlePredictRequest();
-              setExpand(false);
+              setExpand(true);
             }}
           />
         </ListItem>

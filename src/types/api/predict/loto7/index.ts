@@ -121,3 +121,13 @@ export const PredictPostResponseParamsValidator =
 export type PredictPostResponseParams = z.infer<
   typeof PredictPostResponseParamsValidator
 >;
+
+// 保存形式
+export const SavedPredictParamsValidator = z.object({
+  dispersion: PredictDispersionParamsValidator,
+  predict: PredictPostResponseParamsValidator,
+});
+export type SavedPredictParams = z.infer<typeof SavedPredictParamsValidator>;
+
+export const SavedPredictListValidator = SavedPredictParamsValidator.array();
+export type SavedPredictList = z.infer<typeof SavedPredictListValidator>;

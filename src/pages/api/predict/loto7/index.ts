@@ -180,11 +180,11 @@ function PostPredictNumber(
     necessaryNumbers.length >= 7
       ? []
       : [...Array(MAX_LOTO7_NUMBER)].map((_, i) => {
-          return {
-            number: i + 1,
-            weight: 1,
-          } as NumberDispersion;
-        });
+        return {
+          number: i + 1,
+          weight: 1,
+        } as NumberDispersion;
+      });
 
   // 必要数が7未満の時、必要数/除外数以外の数字が選ばれるようにする
   // それ以外の時は必要数から選ばれるので、この分岐に入らない
@@ -285,7 +285,7 @@ function PostPredictNumber(
               date: item.date,
               id: item.id,
               numbers: item.numbers,
-            } as PredictHasSameNumbersParams;
+            };
           }),
         };
         break;
@@ -316,7 +316,7 @@ function PostPredictNumber(
     });
     return;
   }
-  // 100件より多ければデータを返さない
+
   if (quantity > 100) result = [];
 
   // 結果を返す

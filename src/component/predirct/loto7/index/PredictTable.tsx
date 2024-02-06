@@ -1,4 +1,7 @@
-import { PredictElementParams } from '@/types/api/predict/loto7';
+import {
+  PredictDispersionParams,
+  PredictElementParams,
+} from '@/types/api/predict/loto7';
 import {
   Accordion,
   AccordionSummary,
@@ -17,6 +20,7 @@ import { useState } from 'react';
 
 type PredictTableProps = {
   titile: string;
+  dispersoin?: PredictDispersionParams;
   predict: PredictElementParams;
 };
 
@@ -34,11 +38,27 @@ export default function PredictTable(props: PredictTableProps) {
         aria-controls="panel1a-content"
         id="panel1a-header"
       >
-        <Typography>
-          {props.titile}
-          {isExpand
-            ? ''
-            : props.predict.result.map((item) => (
+        <List>
+          <ListItem>
+            <Typography sx={{ marginRight: 4 }}>{props.titile}</Typography>
+            <Typography>
+              {props.dispersoin?.terms
+                ? `期間: ${props.dispersoin?.terms}回分`
+                : '期間: なし'}
+            </Typography>
+            <Typography sx={{ marginLeft: 2 }}>
+              {props.predict.pick_method === 'random'
+                ? '重み: 1'
+                : props.dispersoin?.reverse
+                  ? `重み: 少ない順`
+                  : '重み: 多い順'}
+            </Typography>
+          </ListItem>
+          <ListItem sx={{ width: 300 }}></ListItem>
+          <ListItem sx={{ maxWidth: 400 }}>
+            {isExpand
+              ? ''
+              : props.predict.result.map((item) => (
                 <>
                   <TableCell
                     sx={{
@@ -49,7 +69,8 @@ export default function PredictTable(props: PredictTableProps) {
                   </TableCell>
                 </>
               ))}
-        </Typography>
+          </ListItem>
+        </List>
       </AccordionSummary>
       {/* 各データの情報 */}
       <List>
@@ -92,7 +113,7 @@ export default function PredictTable(props: PredictTableProps) {
           id="panel1a-header"
         >
           <Typography>
-            {`類似した数字が出た抽選回 ( 最大で ${props.predict.similar_pick.count_same_number}桁 同じ )`}
+            {`類似した数字が出た抽選回 ( 最大で ${props.predict.similar_pick?.count_same_number}桁 同じ )`}
           </Typography>
         </AccordionSummary>
         <List>
@@ -105,33 +126,37 @@ export default function PredictTable(props: PredictTableProps) {
                   <TableCell>番号</TableCell>
                 </TableRow>
               </TableHead>
-              {props.predict.similar_pick.has_same_number.map((item) => (
-                <>
-                  <TableBody>
-                    <TableRow>
-                      <TableCell align="right">{item.id}</TableCell>
-                      <TableCell align="right">{item.date}</TableCell>
-                      {item.numbers.map((i) => (
-                        <>
-                          <TableCell
-                            sx={{
-                              backgroundColor:
-                                // 抽選した数とかぶっていればハイライトする
-                                props.predict.result
-                                  .map((item) => item.number)
-                                  .indexOf(i) > -1
-                                  ? '#BDBDBD'
-                                  : '',
-                            }}
-                          >
-                            {i}
-                          </TableCell>
-                        </>
-                      ))}
-                    </TableRow>
-                  </TableBody>
-                </>
-              ))}
+              {props.predict.similar_pick?.has_same_number !== undefined ? (
+                props.predict.similar_pick?.has_same_number.map((item) => (
+                  <>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell align="right">{item.id}</TableCell>
+                        <TableCell align="right">{item.date}</TableCell>
+                        {item.numbers.map((i) => (
+                          <>
+                            <TableCell
+                              sx={{
+                                backgroundColor:
+                                  // 抽選した数とかぶっていればハイライトする
+                                  props.predict.result
+                                    .map((item) => item.number)
+                                    .indexOf(i) > -1
+                                    ? '#BDBDBD'
+                                    : '',
+                              }}
+                            >
+                              {i}
+                            </TableCell>
+                          </>
+                        ))}
+                      </TableRow>
+                    </TableBody>
+                  </>
+                ))
+              ) : (
+                <></>
+              )}
             </Table>
           </ListItem>
         </List>
