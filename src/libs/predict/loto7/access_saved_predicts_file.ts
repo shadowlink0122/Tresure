@@ -1,23 +1,19 @@
 import { BASE_DIR } from '@/constants';
 import {
   PredictDispersionParams,
-  PredictPostResponseParams,
   PredictElementParams,
+  SavedPredictList,
+  SavedPredictParams,
 } from '@/types/api/predict/loto7';
 import { join } from 'path';
 import fs from 'fs';
 
 export const PREDICT_DIR = join(BASE_DIR, 'predict');
-export type SavedPredictType = {
-  dispersion: PredictDispersionParams;
-  predict: PredictPostResponseParams;
-};
 
 export function getPredictFileSync(implement: number) {
   try {
     const fileContent = fs.readFileSync(join(PREDICT_DIR, `${implement}.json`));
-
-    return JSON.parse(fileContent.toString()) as SavedPredictType[];
+    return JSON.parse(fileContent.toString()) as SavedPredictList;
   } catch (e) {
     console.log(e);
   }
@@ -30,7 +26,7 @@ export function savePredictSync(
   implement: number,
 ) {
   Object.freeze(result);
-  const nowAdding: SavedPredictType = {
+  const nowAdding: SavedPredictParams = {
     dispersion: { ...dispersion },
     predict: structuredClone(result),
   };
